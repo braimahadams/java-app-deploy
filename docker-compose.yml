@@ -1,0 +1,5 @@
+services:
+  spring-boot-service:
+    image: spring-boot-sample:latest
+    ports:
+      - 8080:8080
