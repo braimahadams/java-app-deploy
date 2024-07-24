@@ -13,7 +13,7 @@ run_tests:
   image: openjdk:21-jdk-slim
   script:
     - ./gradlew test
-     - ./gradlew jibDockerBuild
+    - ./gradlew jibDockerBuild
   artifacts:
     paths:
       - test
