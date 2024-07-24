@@ -11,9 +11,11 @@ stages:
 run_tests:  
   stage: test
   image: openjdk:21-jdk-slim
+  before_script:
+    - apt-get update && apt-get install docker.io -y
   script:
     - ./gradlew test
-    - ./gradlew jibDockerBuild
+    - ./gradlew clean
   artifacts:
     paths:
       - test
