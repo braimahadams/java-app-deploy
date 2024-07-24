@@ -1,4 +1,25 @@
+variables:
+  IMAGE_NAME: "registry.gitlab.com/intern8622730/javaapp-deployment-project:"
+  IMAGE_TAG: "1.0"
+
 run_tests:  
   image: openjdk:21-jdk-slim
   script:
     - ./gradlew test
+
+
+build_image:
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  variables:
+    DOCKER_TLS_CERTIFICATES: "/certs"
+  before_script:
+    - echo "$REGISTRY_PASS" | docker login -u $REGISTRY_USER --password-stdin registry.gitlab.com 
+  script:
+    - ./gradlew jibDockerBuild
+    - docker tag spring-boot-sample:latest $IMAGE_NAME:$IMAGE_TAG
+    - docker push $IMAGE_NAME:$IMAGE_TAG
+
+
+
