@@ -8,7 +8,7 @@ WORKDIR /app
 COPY src ./src
 
 # Copy the built JAR file from the builder stage
-COPY build/libs/*.jar /app/app.jar
+COPY build/libs/JavaApp-Deployment-Project-1.0.0-SNAPSHOT.jar /app/app.jar
 
 # Expose the port the application will run on
 EXPOSE 8080

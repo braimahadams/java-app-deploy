@@ -5,7 +5,7 @@ plugins {
     id("com.google.cloud.tools.jib") version "3.4.3"
 }
 
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0-SNAPSHOT"
 
 java {
     toolchain {
