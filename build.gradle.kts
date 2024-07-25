@@ -59,7 +59,7 @@ jib {
         image = "eclipse-temurin:21.0.1_12-jre"
     }
     to {
-        image = "spring-boot-sample"
+        image = "registry.gitlab.com/intern8622730/javaapp-deployment-project:1.0"
     }
     container {
         //jvmFlags = listOf("--enable-preview")

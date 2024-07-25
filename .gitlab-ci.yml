@@ -1,38 +1,43 @@
 variables:
-  IMAGE_NAME: "registry.gitlab.com/intern8622730/javaapp-deployment-project:"
-  IMAGE_TAG: "1.0"
+  IMAGE_NAME: "registry.gitlab.com/intern8622730/javaapp-deployment-project"
+  IMAGE_TAG: "2.0"
 
+image: openjdk:21-jdk-slim
 
 stages:
-  - test
   - build
+  - test
+  - package
+  - deploy
 
-
-run_tests:  
-  stage: test
-  image: openjdk:21-jdk-slim
-  before_script:
-    - apt-get update && apt-get install docker.io -y
+build_artifact:  
+  stage: build
   script:
-    - ./gradlew test
     - ./gradlew clean
+    - ./gradlew build
   artifacts:
     paths:
-      - test
+      - ./build/libs
 
+test_artifact:
+  stage: test
+  script:
+    - ./gradlew test
 
-build_image:
-  stage: build
+build_and_push_image:
   image: docker:20.10.16
-  services:
-    - docker:20.10.16-dind
+  stage: package
   variables:
     DOCKER_TLS_CERTIFICATES: "/certs"
   before_script:
     - echo "$REGISTRY_PASS" | docker login -u $REGISTRY_USER --password-stdin registry.gitlab.com 
   script:
-    - docker tag spring-boot-sample:latest $IMAGE_NAME:$IMAGE_TAG
+    - docker build . -t $IMAGE_NAME:$IMAGE_TAG .
     - docker push $IMAGE_NAME:$IMAGE_TAG
+
+
+
+  
 
 
 

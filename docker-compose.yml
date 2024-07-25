@@ -1,5 +1,5 @@
 services:
   spring-boot-service:
-    image: spring-boot-sample:latest
+    image: registry.gitlab.com/intern8622730/javaapp-deployment-project:1.0
     ports:
       - 8080:8080
