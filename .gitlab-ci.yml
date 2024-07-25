@@ -8,27 +8,31 @@ stages:
   - build
   - test
   - package
-  - deploy
 
 build_artifact:  
   stage: build
   script:
     - ./gradlew clean
-    - ./gradlew build
+    - ./gradlew build --no-daemon --build-cache
   artifacts:
     paths:
       - ./build/libs
+    expire_in: 1 day
 
 test_artifact:
   stage: test
   script:
-    - ./gradlew test
+    - ./gradlew test --no-daemon --build-cache
 
 build_and_push_image:
   image: docker:20.10.16
   stage: package
+  services:
+    - docker:20.10.16-dind
   variables:
-    DOCKER_TLS_CERTIFICATES: "/certs"
+    DOCKER_TLS_CERTDIR: "/certs"
+  dependencies:
+    - build_artifact
   before_script:
     - echo "$REGISTRY_PASS" | docker login -u $REGISTRY_USER --password-stdin registry.gitlab.com 
   script:
