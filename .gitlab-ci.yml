@@ -43,7 +43,7 @@ testing_artifact:
     - ./gradlew test --no-daemon --build-cache
 
 
-build-and-test-image:
+Build-Test-and-Push-Image:
   image: docker:20.10.16
   stage: build-and-test-image
   services:
@@ -73,6 +73,7 @@ push-image:
   before_script:
     - echo "$REGISTRY_PASS" | docker login -u $REGISTRY_USER --password-stdin registry.gitlab.com
   script:
-    - docker pull $IMAGE_NAME:$IMAGE_TAG
+    - docker push $IMAGE_NAME:$IMAGE_TAG
+  when: on_success
 
 
