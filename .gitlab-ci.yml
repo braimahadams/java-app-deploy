@@ -1,6 +1,6 @@
 variables:
   IMAGE_NAME: "registry.gitlab.com/intern8622730/javaapp-deployment-project"
-  IMAGE_TAG: "3.0"
+  IMAGE_TAG: "2.0"
 
 image: openjdk:21-jdk-slim
 
@@ -12,14 +12,20 @@ stages:
   - deploy-stage
   - deploy-prod
 
+
 cache:
-  key: $CI_COMMIT_REF_SLUG
-  paths:
-    - .gradle/cache
-  when: on_success
+    key: "no-source-code-changed-cache"
+    paths:
+      - .gradle/wrapper
+      - .gradle/caches
+      - build/
+    when: on_success
+
 
 building_artifact:  
   stage: build-artifact
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
   script:
     - ./gradlew clean
     - ./gradlew build --no-daemon --build-cache
@@ -31,6 +37,8 @@ building_artifact:
 
 testing_artifact:
   stage: test-artifact
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
   script:
     - ./gradlew test --no-daemon --build-cache
 
@@ -54,6 +62,7 @@ build-and-test-image:
     - ./trivy image --no-progress --exit-code 0 --severity HIGH $IMAGE_NAME:$IMAGE_TAG
     - ./trivy image --no-progress --exit-code 1 --severity CRITICAL $IMAGE_NAME:$IMAGE_TAG
 
+
 push-image:
   image: docker:20.10.16
   stage: push-image
@@ -66,7 +75,4 @@ push-image:
   script:
     - docker pull $IMAGE_NAME:$IMAGE_TAG
 
-
-
-  
 
