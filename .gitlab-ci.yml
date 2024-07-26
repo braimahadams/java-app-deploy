@@ -21,14 +21,12 @@ building_artifact:
     paths:
       - ./build/libs
     expire_in: 1 day
-  when: manual
 
 
 testing_artifact:
   stage: test-artifact
   script:
     - ./gradlew test --no-daemon --build-cache
-  when: manual
 
 
 build-and-test-image:
@@ -55,8 +53,6 @@ push-image:
     - docker:20.10.16-dind
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
-  dependencies:
-    - building_artifact
   before_script:
     - echo "$REGISTRY_PASS" | docker login -u $REGISTRY_USER --password-stdin registry.gitlab.com
   script:
