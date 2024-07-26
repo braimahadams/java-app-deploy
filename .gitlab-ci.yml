@@ -32,7 +32,7 @@ testing_artifact:
 
 
 build-and-test-image:
-  image: aquasec/trivy
+  image: docker:20.10.16
   stage: build-and-test-image
   services:
     - docker:20.10.16-dind
@@ -44,8 +44,8 @@ build-and-test-image:
     - echo "$REGISTRY_PASS" | docker login -u $REGISTRY_USER --password-stdin registry.gitlab.com 
   script:
     - docker build -t $IMAGE_NAME:$IMAGE_TAG .
-    - trivy image --no-progress --exit-code 0 --severity HIGH $IMAGE_NAME:$IMAGE_TAG
-    - trivy image --no-progress --exit-code 1 --severity CRITICAL $IMAGE_NAME:$IMAGE_TAG
+    - docker run --rm aquasec/trivy:0.18.3 trivy image --no-progress --exit-code 0 --severity HIGH $IMAGE_NAME:$IMAGE_TAG
+    - docker run --rm aquasec/trivy:0.18.3 trivy image --no-progress --exit-code 1 --severity CRITICAL $IMAGE_NAME:$IMAGE_TAG
 
 
 push-image:
