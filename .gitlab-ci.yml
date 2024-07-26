@@ -58,22 +58,13 @@ Build-Test-and-Push-Image:
     - docker build -t $IMAGE_NAME:$IMAGE_TAG . 
     - wget https://github.com/aquasecurity/trivy/releases/download/v0.53.0/trivy_0.53.0_Linux-64bit.tar.gz
     - tar zxvf trivy_0.53.0_Linux-64bit.tar.gz
+    - echo "$REGISTRY_PASS" | docker login -u $REGISTRY_USER --password-stdin registry.gitlab.com
   script:
     - ./trivy image --no-progress --exit-code 0 --severity HIGH $IMAGE_NAME:$IMAGE_TAG
     - ./trivy image --no-progress --exit-code 1 --severity CRITICAL $IMAGE_NAME:$IMAGE_TAG
-
-
-push-image:
-  image: docker:20.10.16
-  stage: push-image
-  services:
-    - docker:20.10.16-dind
-  variables:
-    DOCKER_TLS_CERTDIR: "/certs"
-  before_script:
-    - echo "$REGISTRY_PASS" | docker login -u $REGISTRY_USER --password-stdin registry.gitlab.com
-  script:
     - docker push $IMAGE_NAME:$IMAGE_TAG
   when: on_success
+
+
 
 
