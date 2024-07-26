@@ -21,12 +21,14 @@ building_artifact:
     paths:
       - ./build/libs
     expire_in: 1 day
+  when: manual
 
 
 testing_artifact:
   stage: test-artifact
   script:
     - ./gradlew test --no-daemon --build-cache
+  when: manual
 
 
 build-and-test-image:
@@ -40,7 +42,7 @@ build-and-test-image:
     - building_artifact
   before_script:
     - wget https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb
-    - sudo dpkg -i trivy_0.18.3_Linux-64bit.deb
+    - dpkg -i trivy_0.18.3_Linux-64bit.deb
     - echo "$REGISTRY_PASS" | docker login -u $REGISTRY_USER --password-stdin registry.gitlab.com 
   script:
     - docker build -t $IMAGE_NAME:$IMAGE_TAG .
