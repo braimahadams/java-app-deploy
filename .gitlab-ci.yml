@@ -48,10 +48,6 @@ build-and-test-image:
     - trivy image --no-progress --exit-code 0 --severity HIGH $IMAGE_NAME:$IMAGE_TAG
     - trivy image --no-progress --exit-code 1 --severity CRITICAL $IMAGE_NAME:$IMAGE_TAG
 
-    - docker run --rm aquasec/trivy:0.18.3 trivy image --no-progress --exit-code 0 --severity HIGH $IMAGE_NAME:$IMAGE_TAG
-    - docker run --rm aquasec/trivy:0.18.3 trivy image --no-progress --exit-code 1 --severity CRITICAL $IMAGE_NAME:$IMAGE_TAG
-
-
 push-image:
   image: docker:20.10.16
   stage: push-image
