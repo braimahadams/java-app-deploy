@@ -62,7 +62,7 @@ jib {
         image = "registry.gitlab.com/intern8622730/javaapp-deployment-project:1.0"
     }
     container {
-        //jvmFlags = listOf("--enable-preview")
+        //jvmFlags = listOf("--enable-previw")
         ports = listOf("8080")
     }
 }
