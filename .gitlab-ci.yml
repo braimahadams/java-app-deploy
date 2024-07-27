@@ -1,5 +1,5 @@
 variables:
-  IMAGE_NAME: "registry.gitlab.com/intern8622730/javaapp-deployment-project"
+  IMAGE_NAME: "registry.gitlab.com/intern8622730/javaapp-deployment-project/javaapp"
   IMAGE_TAG: "2.0"
 
 stages:
@@ -62,3 +62,11 @@ build-scan-and-push-image:
     - docker push $IMAGE_NAME:$IMAGE_TAG
   when: on_success
 
+
+deploy-to-stage:
+  stage: deploy-stage
+  image: registry.gitlab.com/intern8622730/javaapp-deployment-project/python-ansible:latest
+  script:
+  - ansible-playbook -i deploy-with-ansible/deploy-staging.yml -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE
+  
+  
