@@ -51,7 +51,7 @@ build-image:
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
   dependencies:
-    - building_artifact
+    - build-artifact
   script:
     - docker build -t $IMAGE_NAME:$IMAGE_TAG . 
 
