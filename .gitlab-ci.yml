@@ -57,6 +57,7 @@ build-image:
 
 
 scan-image:
+  image: alpine:3.14
   stage: scan-image
   dependencies: 
     - build-image
