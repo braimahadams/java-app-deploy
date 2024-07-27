@@ -5,9 +5,7 @@ variables:
 stages:
   - build-artifact
   - test-artifact
-  - build-image
-  - scan-image
-  - push-image
+  - build-scan-and-push-image
   - deploy-stage
   - deploy-prod
 
@@ -45,40 +43,22 @@ test-artifact:
   script:
     - ./gradlew test --no-daemon --build-cache
 
-build-image:
-  stage: build-image
-  variables:
-    DOCKER_TLS_CERTDIR: "/certs"
-  dependencies:
-    - build-artifact
-  script:
-    - docker build -t $IMAGE_NAME:$IMAGE_TAG . 
-
 
 scan-image:
   stage: scan-image
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
   dependencies: 
-    - build-image
+    - build-artifact
   allow_failure: true 
   before_script:
     - wget https://github.com/aquasecurity/trivy/releases/download/v0.53.0/trivy_0.53.0_Linux-64bit.tar.gz
     - tar zxvf trivy_0.53.0_Linux-64bit.tar.gz
+    - echo "$REGISTRY_PASS" | docker login -u $REGISTRY_USER --password-stdin registry.gitlab.com
   script:
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG . 
     - ./trivy image --no-progress --exit-code 0 --severity HIGH $IMAGE_NAME:$IMAGE_TAG
     - ./trivy image --no-progress --exit-code 1 --severity CRITICAL $IMAGE_NAME:$IMAGE_TAG
+    - docker push $IMAGE_NAME:$IMAGE_TAG
   when: on_success
 
-
-push-image:
-  stage: push-image
-  variables:
-    DOCKER_TLS_CERTDIR: "/certs"
-  dependencies: 
-    - build-image
-    - scan-image
-  script:
-    - echo "$REGISTRY_PASS" | docker login -u $REGISTRY_USER --password-stdin registry.gitlab.com
-    - docker push $IMAGE_NAME:$IMAGE_TAG
-    
