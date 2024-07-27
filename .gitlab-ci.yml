@@ -7,7 +7,8 @@ image: openjdk:21-jdk-slim
 stages:
   - build-artifact
   - test-artifact
-  - build-and-test-image
+  - build-image
+  - scan-image
   - push-image
   - deploy-stage
   - deploy-prod
@@ -22,7 +23,7 @@ cache:
     when: on_success
 
 
-building_artifact:  
+build-artifact:  
   stage: build-artifact
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -35,7 +36,7 @@ building_artifact:
     expire_in: 1 day
 
 
-testing_artifact:
+test-artifact:
   stage: test-artifact
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
