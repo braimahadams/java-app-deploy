@@ -44,8 +44,8 @@ test-artifact:
     - ./gradlew test --no-daemon --build-cache
 
 
-scan-image:
-  stage: scan-image
+build-scan-and-push-image:
+  stage: build-scan-and-push-image
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
   dependencies: 
