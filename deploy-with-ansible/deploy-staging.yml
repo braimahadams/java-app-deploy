@@ -1,0 +1,30 @@
+---
+- name: Deploy Docker container to staging-VM
+  hosts: staging-VM
+  become: yes
+  vars:
+    - docker_registry_username: braimahadams
+
+  tasks:
+    - name: Log in to Docker registry
+      docker_login:
+        username: "{{ docker_registry_username }}"
+        password: "{{ docker_registry_password }}"
+        registry: "registry.gitlab.com"
+        state: present
+
+    - name: Pull Docker image
+      docker_image:
+        name: "{{ IMAGE_NAME }}"
+        tag: "{{ IMAGE_TAG }}"
+        source: pull
+
+    - name: Run Docker container
+      docker_container:
+        name: my_container
+        image: "{{ IMAGE_NAME }}:{{ IMAGE_TAG }}"
+        state: started
+        restart_policy: always
+        ports:
+          - "8080:8080"  # Adjust ports as needed
+      

@@ -1,0 +1,7 @@
+---
+- name: Deploy Docker container to VM
+  hosts: production-VM
+  become: True
+  tasks:
+  
+
