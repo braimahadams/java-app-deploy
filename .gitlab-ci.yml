@@ -2,8 +2,6 @@ variables:
   IMAGE_NAME: "registry.gitlab.com/intern8622730/javaapp-deployment-project"
   IMAGE_TAG: "2.0"
 
-image: openjdk:21-jdk-slim
-
 stages:
   - build-artifact
   - test-artifact
@@ -13,6 +11,9 @@ stages:
   - deploy-stage
   - deploy-prod
 
+image: docker:20.10.16
+services:
+  - docker:20.10.16-dind
 
 cache:
     key: "no-source-code-changed-cache"
@@ -22,8 +23,8 @@ cache:
       - build/
     when: on_success
 
-
 build-artifact:  
+  image: openjdk:21-jdk-slim
   stage: build-artifact
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -37,6 +38,7 @@ build-artifact:
 
 
 test-artifact:
+  image: openjdk:21-jdk-slim
   stage: test-artifact
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -44,10 +46,7 @@ test-artifact:
     - ./gradlew test --no-daemon --build-cache
 
 build-image:
-  image: docker:20.10.16
   stage: build-image
-  services:
-    - docker:20.10.16-dind
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
   dependencies:
@@ -57,8 +56,9 @@ build-image:
 
 
 scan-image:
-  image: alpine:3.14
   stage: scan-image
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
   dependencies: 
     - build-image
   allow_failure: true 
@@ -72,10 +72,7 @@ scan-image:
 
 
 push-image:
-  image: docker:20.10.16
   stage: push-image
-  services:
-    - docker:20.10.16-dind
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
   dependencies: 
@@ -84,3 +81,4 @@ push-image:
   script:
     - echo "$REGISTRY_PASS" | docker login -u $REGISTRY_USER --password-stdin registry.gitlab.com
     - docker push $IMAGE_NAME:$IMAGE_TAG
+    
