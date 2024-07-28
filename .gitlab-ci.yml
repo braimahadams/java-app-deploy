@@ -12,7 +12,7 @@ stages:
   - deploy-prod
 
 #default image used for the CI/CD pipeline
-image: docker:stable
+image: docker:18.09.7
 services:
   - docker:18.09.7-dind
 
