@@ -11,11 +11,6 @@ stages:
   - deploy-stage
   - deploy-prod
 
-#default image used for the CI/CD pipeline
-image: docker:20.10.16
-services:
-  - docker:20.10.16-dind
-
 #compile and package the Java artifact
 build-artifact:  
   image: openjdk:21-jdk-slim
@@ -41,9 +36,13 @@ test-artifact:
 
 #builds scan and pushes the docker image to gitlab container registry
 build-scan-and-push-image:
+  #default image used for the CI/CD pipeline
+  image: docker:stable
+  services:
+  - docker:18.09.7-dind
   stage: build-scan-and-push-image
   variables:
-    DOCKER_HOST: tcp://docker:2375
+    DOCKER_HOST: tcp://localhost:2375/`
     DOCKER_TLS_CERTDIR: "/certs"
   dependencies: 
     - build-artifact
