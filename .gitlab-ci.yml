@@ -43,6 +43,7 @@ test-artifact:
 build-scan-and-push-image:
   stage: build-scan-and-push-image
   variables:
+    DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: "/certs"
   dependencies: 
     - build-artifact
