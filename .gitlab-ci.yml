@@ -11,6 +11,11 @@ stages:
   - deploy-stage
   - deploy-prod
 
+#default image used for the CI/CD pipeline
+image: docker:stable
+services:
+  - docker:18.09.7-dind
+
 #compile and package the Java artifact
 build-artifact:  
   image: openjdk:21-jdk-slim
@@ -36,13 +41,8 @@ test-artifact:
 
 #builds scan and pushes the docker image to gitlab container registry
 build-scan-and-push-image:
-  #default image used for the CI/CD pipeline
-  image: docker:stable
-  services:
-  - docker:18.09.7-dind
   stage: build-scan-and-push-image
   variables:
-    DOCKER_HOST: tcp://localhost:2375/`
     DOCKER_TLS_CERTDIR: "/certs"
   dependencies: 
     - build-artifact
@@ -70,6 +70,6 @@ deploy-to-prod:
   stage: deploy-prod
   image: registry.gitlab.com/intern8622730/javaapp-deployment-project/python-ansible:latest
   script:
-  - ansible-playbook -i inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG docker_registry_username=braimahadams"  --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE ./deploy-with-ansible/deploy-prod.yml
+  - ansible-playbook -i inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG"  --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE ./deploy-with-ansible/deploy-prod.yml
   when: manual
 
