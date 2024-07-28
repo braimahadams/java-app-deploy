@@ -67,6 +67,6 @@ deploy-to-stage:
   stage: deploy-stage
   image: registry.gitlab.com/intern8622730/javaapp-deployment-project/python-ansible:latest
   script:
-  - ansible-playbook -i deploy-with-ansible/deploy-staging.yml -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE
+  - ansible-playbook -i inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG docker_registry_username=braimahadams"  --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE ./deploy-with-ansible/deploy-staging.yml
   
   
