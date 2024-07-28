@@ -16,15 +16,6 @@ image: docker:20.10.16
 services:
   - docker:20.10.16-dind
 
-#cache the gradle wrapper and build cache to avoid unnecessary rebuilds
-cache:
-    key: "no-source-code-changed-cache"
-    paths:
-      - .gradle/wrapper
-      - .gradle/caches
-      - build/
-    when: on_success
-
 #compile and package the Java artifact
 build-artifact:  
   image: openjdk:21-jdk-slim
