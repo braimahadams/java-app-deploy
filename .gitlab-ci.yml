@@ -2,6 +2,8 @@ variables:
   IMAGE_NAME: "registry.gitlab.com/intern8622730/javaapp-deployment-project/javaapp"
   IMAGE_TAG: "2.0"
 
+
+#different stages of the CI/CD pipeline
 stages:
   - build-artifact
   - test-artifact
@@ -9,10 +11,12 @@ stages:
   - deploy-stage
   - deploy-prod
 
+#default image used for the CI/CD pipeline
 image: docker:20.10.16
 services:
   - docker:20.10.16-dind
 
+#cache the gradle wrapper and build cache to avoid unnecessary rebuilds
 cache:
     key: "no-source-code-changed-cache"
     paths:
@@ -21,6 +25,7 @@ cache:
       - build/
     when: on_success
 
+#compile and package the Java artifact
 build-artifact:  
   image: openjdk:21-jdk-slim
   stage: build-artifact
@@ -34,7 +39,7 @@ build-artifact:
       - ./build/libs
     expire_in: 1 day
 
-
+#test the Java artifact
 test-artifact:
   image: openjdk:21-jdk-slim
   stage: test-artifact
@@ -43,14 +48,13 @@ test-artifact:
   script:
     - ./gradlew test --no-daemon --build-cache
 
-
+#builds scan and pushes the docker image to gitlab container registry
 build-scan-and-push-image:
   stage: build-scan-and-push-image
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
   dependencies: 
     - build-artifact
-  allow_failure: true 
   before_script:
     - wget https://github.com/aquasecurity/trivy/releases/download/v0.53.0/trivy_0.53.0_Linux-64bit.tar.gz
     - tar zxvf trivy_0.53.0_Linux-64bit.tar.gz
@@ -62,11 +66,19 @@ build-scan-and-push-image:
     - docker push $IMAGE_NAME:$IMAGE_TAG
   when: on_success
 
-
+#deploy to staging VM
 deploy-to-stage:
   stage: deploy-stage
   image: registry.gitlab.com/intern8622730/javaapp-deployment-project/python-ansible:latest
   script:
   - ansible-playbook -i inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG docker_registry_username=braimahadams"  --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE ./deploy-with-ansible/deploy-staging.yml
   
-  
+
+#manual selection to deploy to prod 
+deploy-to-prod:
+  stage: deploy-prod
+  image: registry.gitlab.com/intern8622730/javaapp-deployment-project/python-ansible:latest
+  script:
+  - ansible-playbook -i inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG docker_registry_username=braimahadams"  --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE ./deploy-with-ansible/deploy-prod.yml
+  when: manual
+
