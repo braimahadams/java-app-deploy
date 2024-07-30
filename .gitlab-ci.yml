@@ -1,6 +1,6 @@
 variables:
   IMAGE_NAME: "registry.gitlab.com/intern8622730/javaapp-deployment-project/javaapp"
-  IMAGE_TAG: "2.0"
+  IMAGE_TAG: $CI_PIPELINE_IID
 
 
 #Deployment template definition
@@ -39,30 +39,47 @@ cache:
     when: on_success
 
 #compile and package the Java artifact
-.build-artifact:  
+build-artifact:  
   image: openjdk:21-jdk-slim
   stage: build-artifact
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
   script:
     - ./gradlew clean
-    - ./gradlew build --no-daemon --build-cache
+    - ./gradlew build --no-daemon --build-cache 
   artifacts:
     paths:
       - ./build/libs
-    expire_in: 1 day
+    expire_in: 30 day
 
 #test the Java artifact
-.test-artifact:
+unit-test:
   image: openjdk:21-jdk-slim
   stage: test-artifact
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
   script:
     - ./gradlew test --no-daemon --build-cache
+  artifacts:
+    when: always
+    paths:
+      - build/reports/tests/test
+    reports:
+      junit:
+        - build/test-results/*.xml
+
+# Performs a smoke test to verify the Java application is running and responds with a 200 OK status
+smoke-test:
+  image: openjdk:21-jdk-slim
+  stage: test-artifact
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - apk add --no-cache curl
+  script:
+    - ./smoke-test.sh
 
 #builds scan and pushes the docker image to gitlab container registry
-.build-scan-and-push-image:
+build-scan-and-push-image:
   image: docker:24.0.5
   services:
     - docker:24.0.5-dind
@@ -72,7 +89,7 @@ cache:
   dependencies: 
     - build-artifact
   before_script:
-    - wget https://github.com/aquasecurity/trivy/releases/download/v0.53.0/trivy_0.53.0_Linux-64bit.tar.gz
+    - wget https://github.com/aquasecurity/trivy/releases/download/v0.53.0/trivy_0.53.0_Linux-64bit.tar.gz --no-cache
     - tar zxvf trivy_0.53.0_Linux-64bit.tar.gz
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
     #- docker info
@@ -86,7 +103,7 @@ cache:
 
 
 #deploy to staging VM
-deploy-to-stage:
+.deploy-to-stage:
   extends: .deploy-template
   stage: deploy-stage
   variables:
@@ -101,7 +118,7 @@ deploy-to-stage:
 
 
 #manual selection to Deploy to production VM (triggered by merge request to main)
-deploy-to-prod:
+.deploy-to-prod:
   extends: .deploy-template
   stage: deploy-prod
   variables:
