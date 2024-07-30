@@ -66,7 +66,7 @@ unit-test:
       - build/reports/tests/test
     reports:
       junit:
-        - build/test-results/*.xml
+        - build/test-results/test/*.xml
 
 # Performs a smoke test to verify the Java application is running and responds with a 200 OK status
 smoke-test:
@@ -74,7 +74,7 @@ smoke-test:
   stage: test-artifact
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
-    - apk add --no-cache curl
+    - apt-get update && apt-get install -y curl
   script:
     - ./smoke-test.sh
 
