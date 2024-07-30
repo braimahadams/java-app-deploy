@@ -80,9 +80,9 @@ deploy-to-stage:
   - ssh-add ~/.ssh/id_rsa
   - ssh-keyscan -H $STAGING_VM_IP >> ~/.ssh/known_hosts
   - chmod 644 ~/.ssh/known_hosts
-  #- export ANSIBLE_CONFIG=./deploy-with-ansible/ansible.cfg
+  - export ANSIBLE_CONFIG=./deploy-with-ansible/ansible.cfg
   script:
-  - ansible -i inventory.ini staging-VM -m ping 
+  - ansible -i ./deploy-with-ansible/inventory.ini staging-VM -m ping 
   #- ansible-playbook -i ./deploy-with-ansible/inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" -e @./deploy-with-ansible/secret_file.enc --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE ./deploy-with-ansible/deploy-staging.yml 
   rules:
     - if: $CI_COMMIT_BRANCH == 'dev'
