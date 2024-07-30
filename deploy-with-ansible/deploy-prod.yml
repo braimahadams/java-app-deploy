@@ -2,6 +2,7 @@
 - name: Deploy Docker container to prod-VM
   hosts: prod-VM
   become: yes
+  become_user: vagrant
   vars:
     - docker_registry_username: braimahadams
   tasks:
