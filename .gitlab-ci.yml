@@ -11,13 +11,17 @@ stages:
   - deploy-stage
   - deploy-prod
 
-#default image used for the CI/CD pipeline
-image: docker:18.09.7
-services:
-  - docker:18.09.7-dind
+#cache the gradle wrapper and build cache to avoid unnecessary rebuilds
+cache:
+    key: $Ci_COMMIT_REF_SLUG
+    paths:
+      - .gradle/wrapper
+      - .gradle/caches
+      - build/
+    when: on_success
 
 #compile and package the Java artifact
-build-artifact:  
+.build-artifact:  
   image: openjdk:21-jdk-slim
   stage: build-artifact
   before_script:
@@ -31,7 +35,7 @@ build-artifact:
     expire_in: 1 day
 
 #test the Java artifact
-test-artifact:
+.test-artifact:
   image: openjdk:21-jdk-slim
   stage: test-artifact
   before_script:
@@ -40,7 +44,10 @@ test-artifact:
     - ./gradlew test --no-daemon --build-cache
 
 #builds scan and pushes the docker image to gitlab container registry
-build-scan-and-push-image:
+.build-scan-and-push-image:
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
   stage: build-scan-and-push-image
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
@@ -49,21 +56,39 @@ build-scan-and-push-image:
   before_script:
     - wget https://github.com/aquasecurity/trivy/releases/download/v0.53.0/trivy_0.53.0_Linux-64bit.tar.gz
     - tar zxvf trivy_0.53.0_Linux-64bit.tar.gz
-    - echo "$REGISTRY_PASS" | docker login -u $REGISTRY_USER --password-stdin registry.gitlab.com
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
+    #- docker info
   script:
     - docker build -t $IMAGE_NAME:$IMAGE_TAG . 
     - ./trivy image --no-progress --exit-code 0 --severity HIGH $IMAGE_NAME:$IMAGE_TAG
     - ./trivy image --no-progress --exit-code 1 --severity CRITICAL $IMAGE_NAME:$IMAGE_TAG
+    #if the scan is successful, push the image to gitlab container registry
     - docker push $IMAGE_NAME:$IMAGE_TAG
   when: on_success
 
 #deploy to staging VM
-deploy-to-stage:
+.deploy-to-stage:
   stage: deploy-stage
-  image: registry.gitlab.com/intern8622730/javaapp-deployment-project/python-ansible:latest
+  image: python:3.9
+  before_script:
+  - pip install ansible
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - mkdir -p ~/.ssh
+  - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+  - chmod 400 ~/.ssh/id_rsa
+  - ssh-add ~/.ssh/id_rsa
+  - ssh-keyscan -H $STAGING_VM_IP >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  #- export ANSIBLE_CONFIG=./deploy-with-ansible/ansible.cfg
   script:
-  - ansible-playbook -i ./deploy-with-ansible/inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG docker_registry_username=braimahadams"  --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE ./deploy-with-ansible/deploy-staging.yml
-  
+  #- ansible staging-VM -m ping 
+  - ansible-playbook -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" -e @./deploy-with-ansible/secret_file.enc --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE ./deploy-with-ansible/deploy-staging.yml 
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'dev'
+  environment:
+    name: staging
+    url: http://staging.example.com:8080/
 
 #manual selection to Deploy to production VM (triggered by merge request to main)
 deploy-to-prod:
@@ -92,3 +117,4 @@ deploy-to-prod:
     name: production
     url: http://example.com:8080/
   
+
