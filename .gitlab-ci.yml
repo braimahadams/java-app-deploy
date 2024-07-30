@@ -65,11 +65,30 @@ deploy-to-stage:
   - ansible-playbook -i ./deploy-with-ansible/inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG docker_registry_username=braimahadams"  --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE ./deploy-with-ansible/deploy-staging.yml
   
 
-#manual selection to deploy to prod 
+#manual selection to Deploy to production VM (triggered by merge request to main)
 deploy-to-prod:
   stage: deploy-prod
-  image: registry.gitlab.com/intern8622730/javaapp-deployment-project/python-ansible:latest
+  image: python:3.9
+  before_script:
+  - pip install ansible
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - mkdir -p ~/.ssh
+  - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+  - chmod 400 ~/.ssh/id_rsa
+  - ssh-add ~/.ssh/id_rsa
+  - ssh-keyscan -H $PROD_VM_IP >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  - export ANSIBLE_CONFIG=./deploy-with-ansible/ansible.cfg
   script:
-  - ansible-playbook -i inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG"  --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE ./deploy-with-ansible/deploy-prod.yml
-  when: manual
-
+  #- ansible prod-VM -m ping 
+  - ansible-playbook -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" -e @./deploy-with-ansible/secret_file.enc --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE ./deploy-with-ansible/deploy-prod.yml
+  rules:
+  - if: $CI_COMMIT_BRANCH == 'main'
+    when: never
+  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    when: manual
+  environment:
+    name: production
+    url: http://example.com:8080/
+  
