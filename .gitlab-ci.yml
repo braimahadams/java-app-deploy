@@ -67,7 +67,7 @@ cache:
   when: on_success
 
 #deploy to staging VM
-.deploy-to-stage:
+deploy-to-stage:
   stage: deploy-stage
   image: python:3.9
   before_script:
