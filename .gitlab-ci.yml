@@ -3,6 +3,26 @@ variables:
   IMAGE_TAG: "119"
 
 
+#Deployment template definition
+.deploy-template:
+  stage: deploy
+  image: python:3.9
+  before_script:
+    - pip install ansible
+    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+    - chmod 400 ~/.ssh/id_rsa
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -H $DEPLOY_VM_IP >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - export ANSIBLE_CONFIG=./deploy-with-ansible/ansible.cfg
+  script:
+    - ansible -i $INVENTORY_FILE $HOST -m ping
+    #- ansible-playbook -i ./deploy-with-ansible/inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" -e @./deploy-with-ansible/secret_file.enc --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE $PLAYBOOK_FILE
+
+
 #different stages of the CI/CD pipeline
 stages:
   - build-artifact
@@ -66,48 +86,30 @@ cache:
     - docker push $IMAGE_NAME:$IMAGE_TAG
   when: on_success
 
+
 #deploy to staging VM
 deploy-to-stage:
+  extends: .deploy-template
   stage: deploy-stage
-  image: python:3.9
-  before_script:
-  - pip install ansible
-  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  - mkdir -p ~/.ssh
-  - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
-  - chmod 400 ~/.ssh/id_rsa
-  - ssh-add ~/.ssh/id_rsa
-  - ssh-keyscan -H $STAGING_VM_IP >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
-  - export ANSIBLE_CONFIG=./deploy-with-ansible/ansible.cfg
-  script:
-  - ansible -i ./deploy-with-ansible/inventory.ini staging-VM -m ping 
-  #- ansible-playbook -i ./deploy-with-ansible/inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" -e @./deploy-with-ansible/secret_file.enc --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE ./deploy-with-ansible/deploy-staging.yml 
+  variables:
+    DEPLOY_VM_IP: $STAGING_VM_IP
+    HOST: $STAGING_VM
+    PLAYBOOK_FILE: ./deploy-with-ansible/deploy-staging.yml
   rules:
     - if: $CI_COMMIT_BRANCH == 'dev'
   environment:
     name: staging
     url: http://staging.example.com:8080/
 
+
 #manual selection to Deploy to production VM (triggered by merge request to main)
 deploy-to-prod:
+  extends: .deploy-template
   stage: deploy-prod
-  image: python:3.9
-  before_script:
-  - pip install ansible
-  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  - mkdir -p ~/.ssh
-  - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
-  - chmod 400 ~/.ssh/id_rsa
-  - ssh-add ~/.ssh/id_rsa
-  - ssh-keyscan -H $PROD_VM_IP >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
-  - export ANSIBLE_CONFIG=./deploy-with-ansible/ansible.cfg
-  script:
-  - ansible -i inventory.ini prod-VM -m ping 
-  #- ansible-playbook -i ./deploy-with-ansible/inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" -e @./deploy-with-ansible/secret_file.enc --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE ./deploy-with-ansible/deploy-prod.yml
+  variables:
+    DEPLOY_VM_IP: $PROD_VM_IP
+    HOST: $PROD_VM
+    PLAYBOOK_FILE: ./deploy-with-ansible/deploy-prod.yml
   rules:
   - if: $CI_COMMIT_BRANCH == 'main'
     when: never
@@ -117,4 +119,3 @@ deploy-to-prod:
     name: production
     url: http://example.com:8080/
   
-
