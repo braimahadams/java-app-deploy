@@ -93,7 +93,7 @@ deploy-to-stage:
   stage: deploy-stage
   variables:
     DEPLOY_VM_IP: $STAGING_VM_IP
-    HOST: $STAGING_VM
+    HOST: staging-VM
     PLAYBOOK_FILE: ./deploy-with-ansible/deploy-staging.yml
   rules:
     - if: $CI_COMMIT_BRANCH == 'dev'
@@ -108,7 +108,7 @@ deploy-to-prod:
   stage: deploy-prod
   variables:
     DEPLOY_VM_IP: $PROD_VM_IP
-    HOST: $PROD_VM
+    HOST: prod-VM
     PLAYBOOK_FILE: ./deploy-with-ansible/deploy-prod.yml
   rules:
   - if: $CI_COMMIT_BRANCH == 'main'
