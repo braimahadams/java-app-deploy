@@ -82,7 +82,7 @@ deploy-to-stage:
   - chmod 644 ~/.ssh/known_hosts
   #- export ANSIBLE_CONFIG=./deploy-with-ansible/ansible.cfg
   script:
-  - ansible staging-VM -m ping 
+  - ansible -i inventory.ini staging-VM -m ping 
   #- ansible-playbook -i ./deploy-with-ansible/inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" -e @./deploy-with-ansible/secret_file.enc --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE ./deploy-with-ansible/deploy-staging.yml 
   rules:
     - if: $CI_COMMIT_BRANCH == 'dev'
@@ -106,7 +106,7 @@ deploy-to-prod:
   - chmod 644 ~/.ssh/known_hosts
   - export ANSIBLE_CONFIG=./deploy-with-ansible/ansible.cfg
   script:
-  - ansible prod-VM -m ping 
+  - ansible -i inventory.ini prod-VM -m ping 
   #- ansible-playbook -i ./deploy-with-ansible/inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" -e @./deploy-with-ansible/secret_file.enc --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE ./deploy-with-ansible/deploy-prod.yml
   rules:
   - if: $CI_COMMIT_BRANCH == 'main'
