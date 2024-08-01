@@ -1,0 +1,65 @@
+{
+	"info": {
+		"_postman_id": "8b82d342-acf2-447d-8490-0614def34d8d",
+		"name": "Movie API Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37335399"
+	},
+	"item": [
+		{
+			"name": "http://staging.example.com:8080/movies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://staging.example.com:8080/movies",
+					"protocol": "http",
+					"host": [
+						"staging",
+						"example",
+						"com"
+					],
+					"port": "8080",
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "baseUrl",
+			"value": "http://staging.example.com:8080/",
+			"type": "string"
+		}
+	]
+}

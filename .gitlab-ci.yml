@@ -27,6 +27,7 @@ stages:
   - test-artifact
   - build-scan-and-push-image
   - deploy-stage
+  - automated-api-tests
   - deploy-prod
 
 #cache the gradle wrapper and build cache to avoid unnecessary rebuilds
@@ -115,6 +116,19 @@ build-scan-and-push-image:
   environment:
     name: staging
     url: http://staging.example.com:8080/
+
+
+#automated-api-tests for staging deployment
+automated-api-tests:
+  stage: automated-api-tests
+  image: cimg/base:2021.04
+  before_script:
+    # Installing Postman CLI
+    - curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+  script:
+    # Login using your Postman API keys
+    - postman login --with-api-key $POSTMAN_API_KEY
+    - postman collection run "37335399-8b82d342-acf2-447d-8490-0614def34d8d"
 
 
 #manual selection to Deploy to production VM (triggered by merge request to main)
