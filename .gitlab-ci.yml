@@ -1,6 +1,6 @@
 variables:
   IMAGE_NAME: "registry.gitlab.com/intern8622730/javaapp-deployment-project/javaapp"
-  IMAGE_TAG: "2.0"
+  IMAGE_TAG: "119"
 
 
 #different stages of the CI/CD pipeline
