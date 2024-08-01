@@ -18,7 +18,7 @@ variables:
     - export ANSIBLE_CONFIG=./deploy-with-ansible/ansible.cfg
   script:
     - ansible -i ./deploy-with-ansible/inventory.ini $HOST -m ping
-    #- ansible-playbook -i ./deploy-with-ansible/inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" -e @./deploy-with-ansible/secret_file.enc --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE $PLAYBOOK_FILE
+    - ansible-playbook -i ./deploy-with-ansible/inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" -e @./deploy-with-ansible/secret_file.enc --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE $PLAYBOOK_FILE
 
 
 # different stages of the CI/CD pipeline
@@ -40,7 +40,7 @@ cache:
     when: on_success
 
 # compile and package the Java artifact
-build-artifact:  
+.build-artifact:  
   image: openjdk:21-jdk-slim
   stage: build-artifact
   before_script:
@@ -54,7 +54,7 @@ build-artifact:
     expire_in: 30 day
 
 # test the Java artifact
-unit-test:
+.unit-test:
   image: openjdk:21-jdk-slim
   stage: test-artifact
   before_script:
@@ -70,7 +70,7 @@ unit-test:
         - build/test-results/test/*.xml
 
 # Performs a smoke test to verify the Java application is running and responds with a 200 OK status
-smoke-test:
+.smoke-test:
   image: openjdk:21-jdk-slim
   stage: test-artifact
   dependencies:
@@ -82,7 +82,7 @@ smoke-test:
     - ./smoke-test.sh
 
 # builds scan and pushes the docker image to gitlab container registry
-build-scan-and-push-image:
+.build-scan-and-push-image:
   image: docker:24.0.5
   services:
     - docker:24.0.5-dind
@@ -106,7 +106,7 @@ build-scan-and-push-image:
 
 
 # deploy to staging VM
-.deploy-to-stage:
+deploy-to-stage:
   extends: .deploy-template
   stage: deploy-stage
   variables:
