@@ -49,16 +49,8 @@
     - name: Install Postman CLI
       shell: |
         curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
-      become: yes
 
     - name: Run Postman Tests
       shell: |
         postman login --with-api-key {{ postman_api_key }}
-        postman collection run "{{ collection_id }}" -e "{{ environment_id }}"  --reporters cli,json --reporter-json-export /path/to/output.json
-      become: yes
-
-    - name: Copy Postman Report
-      fetch:
-        src: /path/to/output.json
-        dest: /tmp/output.json
-        flat: yes
+        postman collection run "{{ collection_id }}" -e "{{ environment_id }}"  
