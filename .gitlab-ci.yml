@@ -93,7 +93,6 @@ build-scan-and-push-image:
     - build-artifact
   before_script:
     - wget https://github.com/aquasecurity/trivy/releases/download/v0.53.0/trivy_0.53.0_Linux-64bit.tar.gz --no-cache
-    - wget https://github.com/aquasecurity/trivy/releases/download/v0.53.0/trivy_0.53.0_Linux-64bit.tar.gz --no-cache
     - tar zxvf trivy_0.53.0_Linux-64bit.tar.gz
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
     #- docker info
