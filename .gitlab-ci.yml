@@ -109,7 +109,7 @@ build-scan-and-push-image:
 
 
 # deploy to staging VM
-.deploy-to-stage:
+deploy-to-stage:
   extends: .deploy-template
   stage: deploy-stage
   variables:
