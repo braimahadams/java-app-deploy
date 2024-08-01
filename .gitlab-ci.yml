@@ -1,6 +1,6 @@
 variables:
   IMAGE_NAME: "registry.gitlab.com/intern8622730/javaapp-deployment-project/javaapp"
-  IMAGE_TAG: $CI_PIPELINE_IID
+  IMAGE_TAG: 137
   USER: vagrant
 
 
