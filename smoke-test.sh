@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Start the application in the background and redirect output to a log file
-java -jar build/libs/JavaApp-Deployment-Project-1.0.0-SNAPSHOT.jar > app.log 2>&1 &
+java -jar build/libs/JavaApp-Deployment-Project-1.0.0-SNAPSHOT.jar &
 
 # Wait for the application to start (adjust the sleep time if necessary)
-sleep 10
+sleep 30
 
 # Check the HTTP status code
 HTTP_STATUS=$(curl -o /dev/null -s -w "%{http_code}\n" http://localhost:8080)
