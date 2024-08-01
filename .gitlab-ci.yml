@@ -80,11 +80,6 @@ smoke-test:
     - apt-get update && apt-get install -y curl
   script:
     - ./smoke-test.sh
-  artifacts:
-    when: always
-    paths:
-      - app.log
-    expire_in: 1 week
 
 # builds scan and pushes the docker image to gitlab container registry
 build-scan-and-push-image:
