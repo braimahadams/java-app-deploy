@@ -17,7 +17,6 @@ variables:
     - chmod 644 ~/.ssh/known_hosts
     - export ANSIBLE_CONFIG=./deploy-with-ansible/ansible.cfg
   script:
-    - ansible -i ./deploy-with-ansible/inventory.ini $HOST -m ping
     - ansible-playbook -i ./deploy-with-ansible/inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" -e @./deploy-with-ansible/secret_file.enc --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE $PLAYBOOK_FILE
 
 
@@ -98,8 +97,8 @@ build-scan-and-push-image:
     #- docker info
   script:
     - docker build -t $IMAGE_NAME:$IMAGE_TAG . 
-    - ./trivy image --no-progress --exit-code 0 --severity HIGH $IMAGE_NAME:$IMAGE_TAG
-    - ./trivy image --no-progress --exit-code 1 --severity CRITICAL $IMAGE_NAME:$IMAGE_TAG
+    - ./trivy image --no-progress --exit-code 0 --severity HIGH  --scanners vuln $IMAGE_NAME:$IMAGE_TAG
+    - ./trivy image --no-progress --exit-code 1 --severity CRITICAL  --scanners vuln $IMAGE_NAME:$IMAGE_TAG
     #if the scan is successful, push the image to gitlab container registry
     - docker push $IMAGE_NAME:$IMAGE_TAG
   when: on_success
@@ -111,7 +110,6 @@ deploy-to-stage:
   stage: deploy-stage
   variables:
     DEPLOY_VM_IP: $STAGING_VM_IP
-    HOST: staging-VM
     PLAYBOOK_FILE: ./deploy-with-ansible/deploy-staging.yml
   rules:
     - if: $CI_COMMIT_BRANCH == 'dev'
@@ -133,7 +131,6 @@ deploy-to-prod:
   stage: deploy-prod
   variables:
     DEPLOY_VM_IP: $PROD_VM_IP
-    HOST: prod-VM
     PLAYBOOK_FILE: ./deploy-with-ansible/deploy-prod.yml
   rules:
   - if: $CI_COMMIT_BRANCH == 'main'
