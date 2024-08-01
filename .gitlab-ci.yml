@@ -3,7 +3,7 @@ variables:
   IMAGE_TAG: $CI_PIPELINE_IID
 
 
-#Deployment template definition
+# Deployment template definition
 .deploy-template:
   stage: deploy
   image: registry.gitlab.com/intern8622730/javaapp-deployment-project/ansible-python:latest 
@@ -21,7 +21,7 @@ variables:
     #- ansible-playbook -i ./deploy-with-ansible/inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" -e @./deploy-with-ansible/secret_file.enc --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE $PLAYBOOK_FILE
 
 
-#different stages of the CI/CD pipeline
+# different stages of the CI/CD pipeline
 stages:
   - build-artifact
   - test-artifact
@@ -30,7 +30,7 @@ stages:
   - automated-api-tests
   - deploy-prod
 
-#cache the gradle wrapper and build cache to avoid unnecessary rebuilds
+# cache the gradle wrapper and build cache to avoid unnecessary rebuilds
 cache:
     key: $Ci_COMMIT_REF_SLUG
     paths:
@@ -39,7 +39,7 @@ cache:
       - build/
     when: on_success
 
-#compile and package the Java artifact
+# compile and package the Java artifact
 build-artifact:  
   image: openjdk:21-jdk-slim
   stage: build-artifact
@@ -53,7 +53,7 @@ build-artifact:
       - ./build/libs
     expire_in: 30 day
 
-#test the Java artifact
+# test the Java artifact
 unit-test:
   image: openjdk:21-jdk-slim
   stage: test-artifact
@@ -82,8 +82,9 @@ smoke-test:
     when: always
     paths:
       - app.log
+    expire_in: 1 week
 
-#builds scan and pushes the docker image to gitlab container registry
+# builds scan and pushes the docker image to gitlab container registry
 build-scan-and-push-image:
   image: docker:24.0.5
   services:
@@ -107,7 +108,7 @@ build-scan-and-push-image:
   when: on_success
 
 
-#deploy to staging VM
+# deploy to staging VM
 .deploy-to-stage:
   extends: .deploy-template
   stage: deploy-stage
@@ -122,7 +123,7 @@ build-scan-and-push-image:
     url: http://staging.example.com:8080/
 
 
-#automated-api-tests for staging deployment
+# automated-api-tests for staging deployment
 automated-api-tests:
   stage: automated-api-tests
   image: cimg/base:2021.04
@@ -132,11 +133,12 @@ automated-api-tests:
   script:
     # Login using your Postman API keys
     - postman login --with-api-key $POSTMAN_API_KEY
-    - postman collection run "37335399-8b82d342-acf2-447d-8490-0614def34d8d"
+    - postman collection run "37335399-8b82d342-acf2-447d-8490-0614def34d8d" -e "37335399-7f7303ec-83e0-4b04-85e7-c93affd1c112"
+  allow_failure: false
 
 
-#manual selection to Deploy to production VM (triggered by merge request to main)
-.deploy-to-prod:
+# manual selection to Deploy to production VM (triggered by merge request to main)
+deploy-to-prod:
   extends: .deploy-template
   stage: deploy-prod
   variables:
