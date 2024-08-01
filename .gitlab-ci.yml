@@ -27,6 +27,7 @@ stages:
   - build-scan-and-push-image
   - deploy-stage
   - automated-api-tests
+  - automated-api-tests
   - deploy-prod
 
 # cache the gradle wrapper and build cache to avoid unnecessary rebuilds
@@ -47,9 +48,11 @@ build-artifact:
   script:
     - ./gradlew clean
     - ./gradlew build --no-daemon --build-cache 
+    - ./gradlew build --no-daemon --build-cache 
   artifacts:
     paths:
       - ./build/libs
+    expire_in: 30 day
     expire_in: 30 day
 
 # test the Java artifact
@@ -92,6 +95,7 @@ build-scan-and-push-image:
     - build-artifact
   before_script:
     - wget https://github.com/aquasecurity/trivy/releases/download/v0.53.0/trivy_0.53.0_Linux-64bit.tar.gz --no-cache
+    - wget https://github.com/aquasecurity/trivy/releases/download/v0.53.0/trivy_0.53.0_Linux-64bit.tar.gz --no-cache
     - tar zxvf trivy_0.53.0_Linux-64bit.tar.gz
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
     #- docker info
@@ -103,6 +107,10 @@ build-scan-and-push-image:
     - docker push $IMAGE_NAME:$IMAGE_TAG
   when: on_success
 
+
+# deploy to staging VM
+deploy-to-stage:
+  extends: .deploy-template
 
 # deploy to staging VM
 deploy-to-stage:
@@ -126,7 +134,18 @@ deploy-to-stage:
 
 
 # manual selection to Deploy to production VM (triggered by merge request to main)
+  artifacts:
+    paths:
+      - /tmp/output.json
+    reports:
+      junit: /tmp/output.json # if using a JUnit-compatible format
+  after_script:
+    - echo "Deploy stage completed"
+
+
+# manual selection to Deploy to production VM (triggered by merge request to main)
 deploy-to-prod:
+  extends: .deploy-template
   extends: .deploy-template
   stage: deploy-prod
   variables:
@@ -140,4 +159,5 @@ deploy-to-prod:
   environment:
     name: production
     url: http://example.com:8080/
+  
   
