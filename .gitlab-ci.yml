@@ -73,6 +73,8 @@ unit-test:
 smoke-test:
   image: openjdk:21-jdk-slim
   stage: test-artifact
+  dependencies:
+    - build-artifact
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
     - apt-get update && apt-get install -y curl
