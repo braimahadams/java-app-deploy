@@ -4,6 +4,9 @@
   become: yes
   vars:
     - docker_registry_username: braimahadams
+      vars:
+    - collection_id: 37335399-8b82d342-acf2-447d-8490-0614def34d8d
+    - environment_id: 37335399-7f7303ec-83e0-4b04-85e7-c93affd1c112
   tasks:
     - name: Update apt cache
       apt:
@@ -42,16 +45,7 @@
         restart_policy: always
         ports:
           - "8080:8080"  
-      
-
-
-- name: Run Postman Tests on Staging
-  hosts: staging
-  become: yes
-  vars:
-    - collection_id: 37335399-8b82d342-acf2-447d-8490-0614def34d8d
-    - environment_id: 37335399-7f7303ec-83e0-4b04-85e7-c93affd1c112
-  tasks:
+          
     - name: Install Postman CLI
       shell: |
         curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh

@@ -40,7 +40,7 @@ cache:
     when: on_success
 
 # compile and package the Java artifact
-.build-artifact:  
+build-artifact:  
   image: openjdk:21-jdk-slim
   stage: build-artifact
   before_script:
@@ -70,7 +70,7 @@ cache:
         - build/test-results/test/*.xml
 
 # Performs a smoke test to verify the Java application is running and responds with a 200 OK status
-.smoke-test:
+smoke-test:
   image: openjdk:21-jdk-slim
   stage: test-artifact
   dependencies:
@@ -82,7 +82,7 @@ cache:
     - ./smoke-test.sh
 
 # builds scan and pushes the docker image to gitlab container registry
-.build-scan-and-push-image:
+build-scan-and-push-image:
   image: docker:24.0.5
   services:
     - docker:24.0.5-dind
