@@ -27,7 +27,6 @@ stages:
   - build-scan-and-push-image
   - deploy-stage
   - automated-api-tests
-  - automated-api-tests
   - deploy-prod
 
 # cache the gradle wrapper and build cache to avoid unnecessary rebuilds
@@ -52,7 +51,6 @@ build-artifact:
   artifacts:
     paths:
       - ./build/libs
-    expire_in: 30 day
     expire_in: 30 day
 
 # test the Java artifact
@@ -111,10 +109,6 @@ build-scan-and-push-image:
 # deploy to staging VM
 deploy-to-stage:
   extends: .deploy-template
-
-# deploy to staging VM
-deploy-to-stage:
-  extends: .deploy-template
   stage: deploy-stage
   variables:
     DEPLOY_VM_IP: $STAGING_VM_IP
@@ -134,18 +128,7 @@ deploy-to-stage:
 
 
 # manual selection to Deploy to production VM (triggered by merge request to main)
-  artifacts:
-    paths:
-      - /tmp/output.json
-    reports:
-      junit: /tmp/output.json # if using a JUnit-compatible format
-  after_script:
-    - echo "Deploy stage completed"
-
-
-# manual selection to Deploy to production VM (triggered by merge request to main)
 deploy-to-prod:
-  extends: .deploy-template
   extends: .deploy-template
   stage: deploy-prod
   variables:
