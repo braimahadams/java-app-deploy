@@ -43,3 +43,28 @@
         ports:
           - "8080:8080"  
       
+
+
+- name: Run Postman Tests on Staging
+  hosts: staging
+  become: yes
+  vars:
+    - collection_id: 37335399-8b82d342-acf2-447d-8490-0614def34d8d
+    - environment_id: 37335399-7f7303ec-83e0-4b04-85e7-c93affd1c112
+  tasks:
+    - name: Install Postman CLI
+      shell: |
+        curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+      become: yes
+
+    - name: Run Postman Tests
+      shell: |
+        postman login --with-api-key {{ postman_api_key }}
+        postman collection run "{{ collection_id }}" -e "{{ environment_id }}"  --reporters cli,json --reporter-json-export /path/to/output.json
+      become: yes
+
+    - name: Copy Postman Report
+      fetch:
+        src: /path/to/output.json
+        dest: /tmp/output.json
+        flat: yes
