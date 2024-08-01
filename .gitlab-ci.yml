@@ -53,7 +53,7 @@ build-artifact:
     expire_in: 30 day
 
 # test the Java artifact
-.unit-test:
+unit-test:
   image: eclipse-temurin:21.0.1_12-jre
   stage: test-artifact
   before_script:
