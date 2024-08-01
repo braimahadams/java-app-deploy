@@ -41,7 +41,7 @@ cache:
 
 # compile and package the Java artifact
 build-artifact:  
-  image: openjdk:21-jdk-slim
+  image: eclipse-temurin:21.0.1_12-jre
   stage: build-artifact
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -55,7 +55,7 @@ build-artifact:
 
 # test the Java artifact
 .unit-test:
-  image: openjdk:21-jdk-slim
+  image: eclipse-temurin:21.0.1_12-jre
   stage: test-artifact
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -71,7 +71,7 @@ build-artifact:
 
 # Performs a smoke test to verify the Java application is running and responds with a 200 OK status
 smoke-test:
-  image: openjdk:21-jdk-slim
+  image: eclipse-temurin:21.0.1_12-jre
   stage: test-artifact
   dependencies:
     - build-artifact
