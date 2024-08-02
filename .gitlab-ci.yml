@@ -60,8 +60,7 @@ sonarqube-check:
   image: gradle:8.2.0-jdk17-jammy
   stage: code-quality
   dependencies:
-    - get-binaries
-    - build
+    - build-artifact
   cache:
     policy: pull
     key: "${CI_COMMIT_SHORT_SHA}"
