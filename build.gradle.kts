@@ -3,7 +3,6 @@ plugins {
     id("io.spring.dependency-management") version "1.1.6"
     id("java")
     id("com.google.cloud.tools.jib") version "3.4.3"
-    id "org.sonarqube" version "3.0"
 }
 
 version = "1.0.0-SNAPSHOT"
