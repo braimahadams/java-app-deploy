@@ -1,8 +1,9 @@
 variables:
   IMAGE_NAME: "registry.gitlab.com/intern8622730/javaapp-deployment-project/javaapp"
   IMAGE_TAG: $CI_PIPELINE_IID
-
-
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  
 # Deployment template definition
 .deploy-template:
   stage: deploy
@@ -23,6 +24,7 @@ variables:
 # different stages of the CI/CD pipeline
 stages:
   - build-artifact
+  - code-quality
   - test-artifact
   - build-scan-and-push-image
   - deploy-stage
@@ -54,9 +56,41 @@ build-artifact:
       - ./build/libs
     expire_in: 30 day
 
+sonarqube-check:
+  image: gradle:8.2.0-jdk17-jammy
+  stage: code-quality
+  dependencies:
+    - get-binaries
+    - build
+  cache:
+    policy: pull
+    key: "${CI_COMMIT_SHORT_SHA}"
+    paths:
+      - sonar-scanner/  
+  script: gradle sonar
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'dev'
+
+sonarqube-vulnerability-report:
+  image: gradle:8.2.0-jdk17-jammy
+  stage: code-quality
+  script:
+    - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=intern8622730_JavaApp-Deployment-Project_2942fb77-c9c3-4f39-8fa9-3f1328e0cfaf&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'dev'
+  artifacts:
+    expire_in: 1 day
+    reports:
+      sast: gl-sast-sonar-report.json
+
+
 
 # test the Java artifact
-.unit-test:
+unit-test:
   image: sapmachine:21-jdk-ubuntu
   stage: test-artifact
   before_script:
@@ -73,7 +107,7 @@ build-artifact:
 
 
 # Performs a smoke test to verify the Java application is running and responds with a 200 OK status
-.smoke-test:
+smoke-test:
   image: sapmachine:21-jdk-ubuntu
   stage: test-artifact
   dependencies:
@@ -86,7 +120,7 @@ build-artifact:
 
 
 # builds scan and pushes the docker image to gitlab container registry
-.build-scan-and-push-image:
+build-scan-and-push-image:
   image: docker:24.0.5
   services:
     - docker:24.0.5-dind
@@ -110,7 +144,7 @@ build-artifact:
 
 
 # deploy to staging VM
-.deploy-to-stage:
+deploy-to-stage:
   extends: .deploy-template
   stage: deploy-stage
   variables:
@@ -158,3 +192,5 @@ deploy-to-prod:
     - echo "Deploy prod completed"
   
   
+
+ 
