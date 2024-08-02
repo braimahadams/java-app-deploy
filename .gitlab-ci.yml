@@ -85,11 +85,6 @@ smoke-test:
   script:
     - ./smoke-test.sh
 
-codeá-analysis:
-  stage: test-artifact
-  dependencies:
-    - build-artifact
-
 
 # builds scan and pushes the docker image to gitlab container registry
 build-scan-and-push-image:
