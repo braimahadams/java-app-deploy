@@ -32,7 +32,7 @@ stages:
 
 # cache the gradle wrapper and build cache to avoid unnecessary rebuilds
 cache:
-    key: CI_COMMIT_REF_SLUG
+    key: $CI_COMMIT_REF_SLUG
     paths:
       - .gradle/wrapper
       - .gradle/caches
@@ -48,7 +48,6 @@ build-artifact:
     - export GRADLE_USER_HOME=`pwd`/.gradle
   script:
     - ./gradlew clean
-    - ./gradlew build --no-daemon --build-cache 
     - ./gradlew build --no-daemon --build-cache 
   artifacts:
     paths:
@@ -119,7 +118,7 @@ deploy-to-stage:
     PLAYBOOK_FILE: ./deploy-with-ansible/deploy-staging.yml
   rules:
     - if: $CI_COMMIT_BRANCH == 'dev'
-      when: always
+      when: on_success
   environment:
     name: staging
     url: http://staging.example.com:8080/
@@ -149,7 +148,7 @@ deploy-to-prod:
     PLAYBOOK_FILE: ./deploy-with-ansible/deploy-prod.yml
   rules:
   - if: $CI_COMMIT_BRANCH == 'main'
-    when: always
+    when: manual
   - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     when: always
   environment:
