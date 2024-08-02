@@ -49,10 +49,10 @@ build-artifact:
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
   script:
-    - ./gradlew clean
-    - ./gradlew build --no-daemon --build-cache 
+    - ./gradlew clean build -x test --no-daemon --build-cache 
   artifacts:
     paths:
+      - ./build/classes/java/main 
       - ./build/libs
       - ./builds  
     expire_in: 30 day

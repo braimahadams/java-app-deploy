@@ -11,6 +11,7 @@ sonar {
     property("sonar.projectKey", "intern8622730_JavaApp-Deployment-Project_2942fb77-c9c3-4f39-8fa9-3f1328e0cfaf")
     property("sonar.projectName", "JavaApp-Deployment-Project")
     property("sonar.qualitygate.wait", true)
+    property("sonar.java.binaries", "build/classes/java/main")
   }
 }
 
