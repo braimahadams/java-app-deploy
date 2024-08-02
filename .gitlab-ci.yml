@@ -32,7 +32,7 @@ stages:
 
 # cache the gradle wrapper and build cache to avoid unnecessary rebuilds
 cache:
-    key: $CI_COMMIT_REF_SLUG
+    key: CI_COMMIT_REF_SLUG
     paths:
       - .gradle/wrapper
       - .gradle/caches
