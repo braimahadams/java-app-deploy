@@ -54,6 +54,7 @@ build-artifact:
   artifacts:
     paths:
       - ./build/libs
+      - ./builds  
     expire_in: 30 day
 
 sonarqube-check:
