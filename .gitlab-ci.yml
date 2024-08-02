@@ -42,7 +42,7 @@ cache:
 
 # compile and package the Java artifact
 build-artifact:  
-  image: ubi8/openjdk-21-runtime
+  image: sapmachine:21-jdk-ubuntu
   stage: build-artifact
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -57,7 +57,7 @@ build-artifact:
 
 # test the Java artifact
 unit-test:
-  image: ubi8/openjdk-21-runtime
+  image: sapmachine:21-jdk-ubuntu
   stage: test-artifact
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -74,7 +74,7 @@ unit-test:
 
 # Performs a smoke test to verify the Java application is running and responds with a 200 OK status
 smoke-test:
-  image: ubi8/openjdk-21-runtime
+  image: sapmachine:21-jdk-ubuntu
   stage: test-artifact
   dependencies:
     - build-artifact
