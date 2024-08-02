@@ -1,7 +1,6 @@
 variables:
   IMAGE_NAME: "registry.gitlab.com/intern8622730/javaapp-deployment-project/javaapp"
-  IMAGE_TAG: 137
-  USER: vagrant
+  IMAGE_TAG: $CI_PIPELINE_IID
 
 
 # Deployment template definition
@@ -30,17 +29,19 @@ stages:
   - automated-api-tests
   - deploy-prod
 
+
 # cache the gradle wrapper and build cache to avoid unnecessary rebuilds
 cache:
-    key: $Ci_COMMIT_REF_SLUG
+    key: $CI_COMMIT_REF_SLUG
     paths:
       - .gradle/wrapper
       - .gradle/caches
       - build/
     when: on_success
 
+
 # compile and package the Java artifact
-.build-artifact:  
+build-artifact:  
   image: eclipse-temurin:21.0.1_12-jre
   stage: build-artifact
   before_script:
@@ -54,8 +55,9 @@ cache:
       - ./build/libs
     expire_in: 30 day
 
+
 # test the Java artifact
-.unit-test:
+unit-test:
   image: eclipse-temurin:21.0.1_12-jre
   stage: test-artifact
   before_script:
@@ -70,8 +72,9 @@ cache:
       junit:
         - build/test-results/test/*.xml
 
+
 # Performs a smoke test to verify the Java application is running and responds with a 200 OK status
-.smoke-test:
+smoke-test:
   image: eclipse-temurin:21.0.1_12-jre
   stage: test-artifact
   dependencies:
@@ -82,8 +85,14 @@ cache:
   script:
     - ./smoke-test.sh
 
+codeá-analysis:
+  stage: test-artifact
+  dependencies:
+    - build-artifact
+
+
 # builds scan and pushes the docker image to gitlab container registry
-.build-scan-and-push-image:
+build-scan-and-push-image:
   image: docker:24.0.5
   services:
     - docker:24.0.5-dind
@@ -115,37 +124,25 @@ deploy-to-stage:
     PLAYBOOK_FILE: ./deploy-with-ansible/deploy-staging.yml
   rules:
     - if: $CI_COMMIT_BRANCH == 'dev'
-  artifacts:
-    paths:
-      - /tmp/output.json
-    reports:
-      junit: /tmp/output.json # if using a JUnit-compatible format
+      when: always
+  environment:
+    name: staging
+    url: http://staging.example.com:8080/
   after_script:
     - echo "Deploy stage completed"
 
 
-post-deploy-test:
-  stage: automated-api-tests
-  image: newman-ssh-image:latest
-  variables:
-    SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY
-    DEPLOY_VM_IP: $STAGING_VM_IP
-    USER: vagrant
-  script:
-    - eval $(ssh-agent -s)
-    - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
-    - chmod 600 ~/.ssh/id_rsa
-    - ssh-keyscan $DEPLOY_VM_IP >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-    - ssh BECOME_USER@STAGING_VM_IP
-    - "newman run 'POSTMAN_API_KEY' -e '37335399-7f7303ec-83e0-4b04-85e7-c93affd1c112' --reporters cli,json --reporter-json-export /tmp/postman-reports/report.json"
-  artifacts:
-    paths:
-      - /tmp/postman-reports/report.json
-    expire_in: 1 week
-
-
+#automated api test for after staging deployment
+#automated-api-tests:
+#  stage: automated-api-tests
+#  image: cimg/base:2021.04
+#  before_script:
+#    # Installing Postman CLI
+#    - #curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+#  script:
+#    # Login using your Postman API keys
+#    - #postman login --with-api-key $POSTMAN_API_KEY
+#    - #postman collection run "37335399-8b82d342-acf2-447d-8490-0614def34d8d" -e "37335399-7f7303ec-83e0-4b04-85e7-c93affd1c112" 
 
 
 # manual selection to Deploy to production VM (triggered by merge request to main)
@@ -157,11 +154,13 @@ deploy-to-prod:
     PLAYBOOK_FILE: ./deploy-with-ansible/deploy-prod.yml
   rules:
   - if: $CI_COMMIT_BRANCH == 'main'
-    when: never
+    when: always
   - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    when: manual
+    when: always
   environment:
-    name: production
-    url: http://example.com:8080/
+   name: production
+   url: http://example.com:8080/
+  after_script:
+    - echo "Deploy prod completed"
   
   
