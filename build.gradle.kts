@@ -3,6 +3,15 @@ plugins {
     id("io.spring.dependency-management") version "1.1.6"
     id("java")
     id("com.google.cloud.tools.jib") version "3.4.3"
+    id ("org.sonarqube") version "5.0.0.4638"
+}
+
+sonar {
+  properties {
+    property("sonar.projectKey", "intern8622730_JavaApp-Deployment-Project_2942fb77-c9c3-4f39-8fa9-3f1328e0cfaf")
+    property("sonar.projectName", "JavaApp-Deployment-Project")
+    property("sonar.qualitygate.wait", true)
+  }
 }
 
 version = "1.0.0-SNAPSHOT"
