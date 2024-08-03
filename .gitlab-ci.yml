@@ -67,7 +67,7 @@ sonarqube-check:
     key: "${CI_COMMIT_SHORT_SHA}"
     paths:
       - sonar-scanner/  
-  script: gradle sonar
+  script: gradle sonar --debug
   allow_failure: true
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'

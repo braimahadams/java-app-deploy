@@ -1,0 +1,273 @@
+Initialized native services in: /home/braimahadams/.gradle/native
+Initialized jansi services in: /home/braimahadams/.gradle/native
+Received JVM installation metadata from '/usr/lib/jvm/java-21-openjdk-amd64': {JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64, JAVA_VERSION=21.0.4, JAVA_VENDOR=Ubuntu, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.4+7-Ubuntu-1ubuntu220.04, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.4+7-Ubuntu-1ubuntu220.04, VM_VENDOR=Ubuntu, OS_ARCH=amd64}
+The client will now receive all logging from the daemon (pid: 10351). The daemon log file: /home/braimahadams/.gradle/daemon/8.9/daemon-10351.out.log
+Starting 4th build in daemon [uptime: 7 mins 10.116 secs, performance: 100%, GC rate: 0.00/s, heap usage: 2% of 512 MiB, non-heap usage: 41% of 384 MiB]
+Using 12 worker leases.
+Now considering [/home/braimahadams/Desktop/JavaApp-Deployment-Project] as hierarchies to watch
+Watching the file system is configured to be enabled if available
+File system watching is active
+Starting Build
+Transforming foojay-resolver-0.8.0.jar (org.gradle.toolchains:foojay-resolver:0.8.0) with InstrumentationAnalysisTransform
+Transforming gson-2.10.1.jar (com.google.code.gson:gson:2.10.1) with InstrumentationAnalysisTransform
+Transforming foojay-resolver-0.8.0.jar (org.gradle.toolchains:foojay-resolver:0.8.0) with InstrumentationAnalysisTransform
+Transforming foojay-resolver-0.8.0.jar (org.gradle.toolchains:foojay-resolver:0.8.0) with MergeInstrumentationAnalysisTransform
+Transforming gson-2.10.1.jar (com.google.code.gson:gson:2.10.1) with InstrumentationAnalysisTransform
+Transforming gson-2.10.1.jar (com.google.code.gson:gson:2.10.1) with MergeInstrumentationAnalysisTransform
+Transforming foojay-resolver-0.8.0.jar (org.gradle.toolchains:foojay-resolver:0.8.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming gson-2.10.1.jar (com.google.code.gson:gson:2.10.1) with ExternalDependencyInstrumentingArtifactTransform
+Settings evaluated using settings file '/home/braimahadams/Desktop/JavaApp-Deployment-Project/settings.gradle.kts'.
+Projects loaded. Root project using build file '/home/braimahadams/Desktop/JavaApp-Deployment-Project/build.gradle.kts'.
+Included projects: [root project 'JavaApp-Deployment-Project']
+
+> Configure project :
+Evaluating root project 'JavaApp-Deployment-Project' using build file '/home/braimahadams/Desktop/JavaApp-Deployment-Project/build.gradle.kts'.
+Transforming spring-boot-gradle-plugin-3.3.2.jar (org.springframework.boot:spring-boot-gradle-plugin:3.3.2) with InstrumentationAnalysisTransform
+Transforming dependency-management-plugin-1.1.6.jar (io.spring.gradle:dependency-management-plugin:1.1.6) with InstrumentationAnalysisTransform
+Transforming jib-gradle-plugin-3.4.3.jar (com.google.cloud.tools:jib-gradle-plugin:3.4.3) with InstrumentationAnalysisTransform
+Transforming sonarqube-gradle-plugin-5.0.0.4638.jar (org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:5.0.0.4638) with InstrumentationAnalysisTransform
+Transforming spring-boot-buildpack-platform-3.3.2.jar (org.springframework.boot:spring-boot-buildpack-platform:3.3.2) with InstrumentationAnalysisTransform
+Transforming spring-boot-loader-tools-3.3.2.jar (org.springframework.boot:spring-boot-loader-tools:3.3.2) with InstrumentationAnalysisTransform
+Transforming commons-compress-1.26.0.jar (org.apache.commons:commons-compress:1.26.0) with InstrumentationAnalysisTransform
+Transforming spring-core-6.1.11.jar (org.springframework:spring-core:6.1.11) with InstrumentationAnalysisTransform
+Transforming google-http-client-apache-v2-1.42.2.jar (com.google.http-client:google-http-client-apache-v2:1.42.2) with InstrumentationAnalysisTransform
+Transforming google-auth-library-oauth2-http-1.10.0.jar (com.google.auth:google-auth-library-oauth2-http:1.10.0) with InstrumentationAnalysisTransform
+Transforming google-http-client-gson-1.42.2.jar (com.google.http-client:google-http-client-gson:1.42.2) with InstrumentationAnalysisTransform
+Transforming google-http-client-1.42.2.jar (com.google.http-client:google-http-client:1.42.2) with InstrumentationAnalysisTransform
+Transforming opencensus-contrib-http-util-0.31.1.jar (io.opencensus:opencensus-contrib-http-util:0.31.1) with InstrumentationAnalysisTransform
+Transforming guava-32.1.2-jre.jar (com.google.guava:guava:32.1.2-jre) with InstrumentationAnalysisTransform
+Transforming jackson-datatype-jsr310-2.15.2.jar (com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2) with InstrumentationAnalysisTransform
+Transforming jackson-module-parameter-names-2.15.2.jar (com.fasterxml.jackson.module:jackson-module-parameter-names:2.15.2) with InstrumentationAnalysisTransform
+Transforming jackson-databind-2.15.2.jar (com.fasterxml.jackson.core:jackson-databind:2.15.2) with InstrumentationAnalysisTransform
+Transforming jackson-annotations-2.15.2.jar (com.fasterxml.jackson.core:jackson-annotations:2.15.2) with InstrumentationAnalysisTransform
+Transforming jackson-core-2.15.2.jar (com.fasterxml.jackson.core:jackson-core:2.15.2) with InstrumentationAnalysisTransform
+Transforming asm-9.5.jar (org.ow2.asm:asm:9.5) with InstrumentationAnalysisTransform
+Transforming jib-gradle-plugin-extension-api-0.4.0.jar (com.google.cloud.tools:jib-gradle-plugin-extension-api:0.4.0) with InstrumentationAnalysisTransform
+Transforming jib-build-plan-0.4.0.jar (com.google.cloud.tools:jib-build-plan:0.4.0) with InstrumentationAnalysisTransform
+Transforming jib-plugins-extension-common-0.2.0.jar (com.google.cloud.tools:jib-plugins-extension-common:0.2.0) with InstrumentationAnalysisTransform
+Transforming sonar-scanner-api-2.16.2.588.jar (org.sonarsource.scanner.api:sonar-scanner-api:2.16.2.588) with InstrumentationAnalysisTransform
+Transforming jna-platform-5.13.0.jar (net.java.dev.jna:jna-platform:5.13.0) with InstrumentationAnalysisTransform
+Transforming httpclient5-5.3.1.jar (org.apache.httpcomponents.client5:httpclient5:5.3.1) with InstrumentationAnalysisTransform
+Transforming tomlj-1.0.0.jar (org.tomlj:tomlj:1.0.0) with InstrumentationAnalysisTransform
+Transforming spring-jcl-6.1.11.jar (org.springframework:spring-jcl:6.1.11) with InstrumentationAnalysisTransform
+Transforming commons-io-2.15.1.jar (commons-io:commons-io:2.15.1) with InstrumentationAnalysisTransform
+Transforming commons-lang3-3.14.0.jar (org.apache.commons:commons-lang3:3.14.0) with InstrumentationAnalysisTransform
+Transforming httpclient-4.5.13.jar (org.apache.httpcomponents:httpclient:4.5.13) with InstrumentationAnalysisTransform
+Transforming httpcore-4.4.15.jar (org.apache.httpcomponents:httpcore:4.4.15) with InstrumentationAnalysisTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with InstrumentationAnalysisTransform
+Transforming j2objc-annotations-2.8.jar (com.google.j2objc:j2objc-annotations:2.8) with InstrumentationAnalysisTransform
+Transforming opencensus-api-0.31.1.jar (io.opencensus:opencensus-api:0.31.1) with InstrumentationAnalysisTransform
+Transforming auto-value-annotations-1.9.jar (com.google.auto.value:auto-value-annotations:1.9) with InstrumentationAnalysisTransform
+Transforming google-auth-library-credentials-1.10.0.jar (com.google.auth:google-auth-library-credentials:1.10.0) with InstrumentationAnalysisTransform
+Transforming failureaccess-1.0.1.jar (com.google.guava:failureaccess:1.0.1) with InstrumentationAnalysisTransform
+Transforming listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar (com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava) with InstrumentationAnalysisTransform
+Transforming checker-qual-3.33.0.jar (org.checkerframework:checker-qual:3.33.0) with InstrumentationAnalysisTransform
+Transforming error_prone_annotations-2.18.0.jar (com.google.errorprone:error_prone_annotations:2.18.0) with InstrumentationAnalysisTransform
+Transforming jna-5.13.0.jar (net.java.dev.jna:jna:5.13.0) with InstrumentationAnalysisTransform
+Transforming httpcore5-h2-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5-h2:5.2.4) with InstrumentationAnalysisTransform
+Transforming httpcore5-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5:5.2.4) with InstrumentationAnalysisTransform
+Transforming slf4j-api-1.7.36.jar (org.slf4j:slf4j-api:1.7.36) with InstrumentationAnalysisTransform
+Transforming antlr4-runtime-4.7.2.jar (org.antlr:antlr4-runtime:4.7.2) with InstrumentationAnalysisTransform
+Transforming commons-logging-1.2.jar (commons-logging:commons-logging:1.2) with InstrumentationAnalysisTransform
+Transforming commons-codec-1.11.jar (commons-codec:commons-codec:1.11) with InstrumentationAnalysisTransform
+Transforming grpc-context-1.27.2.jar (io.grpc:grpc-context:1.27.2) with InstrumentationAnalysisTransform
+Transforming gson-2.9.0.jar (com.google.code.gson:gson:2.9.0) with InstrumentationAnalysisTransform
+Transforming spring-boot-gradle-plugin-3.3.2.jar (org.springframework.boot:spring-boot-gradle-plugin:3.3.2) with InstrumentationAnalysisTransform
+Transforming spring-boot-gradle-plugin-3.3.2.jar (org.springframework.boot:spring-boot-gradle-plugin:3.3.2) with MergeInstrumentationAnalysisTransform
+Transforming dependency-management-plugin-1.1.6.jar (io.spring.gradle:dependency-management-plugin:1.1.6) with InstrumentationAnalysisTransform
+Transforming dependency-management-plugin-1.1.6.jar (io.spring.gradle:dependency-management-plugin:1.1.6) with MergeInstrumentationAnalysisTransform
+Transforming jib-gradle-plugin-3.4.3.jar (com.google.cloud.tools:jib-gradle-plugin:3.4.3) with InstrumentationAnalysisTransform
+Transforming jib-gradle-plugin-3.4.3.jar (com.google.cloud.tools:jib-gradle-plugin:3.4.3) with MergeInstrumentationAnalysisTransform
+Transforming spring-boot-gradle-plugin-3.3.2.jar (org.springframework.boot:spring-boot-gradle-plugin:3.3.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming sonarqube-gradle-plugin-5.0.0.4638.jar (org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:5.0.0.4638) with InstrumentationAnalysisTransform
+Transforming jib-gradle-plugin-3.4.3.jar (com.google.cloud.tools:jib-gradle-plugin:3.4.3) with ExternalDependencyInstrumentingArtifactTransform
+Transforming sonarqube-gradle-plugin-5.0.0.4638.jar (org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:5.0.0.4638) with MergeInstrumentationAnalysisTransform
+Transforming dependency-management-plugin-1.1.6.jar (io.spring.gradle:dependency-management-plugin:1.1.6) with ExternalDependencyInstrumentingArtifactTransform
+Transforming spring-boot-buildpack-platform-3.3.2.jar (org.springframework.boot:spring-boot-buildpack-platform:3.3.2) with InstrumentationAnalysisTransform
+Transforming spring-boot-buildpack-platform-3.3.2.jar (org.springframework.boot:spring-boot-buildpack-platform:3.3.2) with MergeInstrumentationAnalysisTransform
+Transforming sonarqube-gradle-plugin-5.0.0.4638.jar (org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:5.0.0.4638) with ExternalDependencyInstrumentingArtifactTransform
+Transforming spring-boot-loader-tools-3.3.2.jar (org.springframework.boot:spring-boot-loader-tools:3.3.2) with InstrumentationAnalysisTransform
+Transforming spring-boot-loader-tools-3.3.2.jar (org.springframework.boot:spring-boot-loader-tools:3.3.2) with MergeInstrumentationAnalysisTransform
+Transforming spring-boot-buildpack-platform-3.3.2.jar (org.springframework.boot:spring-boot-buildpack-platform:3.3.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming commons-compress-1.26.0.jar (org.apache.commons:commons-compress:1.26.0) with InstrumentationAnalysisTransform
+Transforming commons-compress-1.26.0.jar (org.apache.commons:commons-compress:1.26.0) with MergeInstrumentationAnalysisTransform
+Transforming spring-boot-loader-tools-3.3.2.jar (org.springframework.boot:spring-boot-loader-tools:3.3.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming spring-core-6.1.11.jar (org.springframework:spring-core:6.1.11) with InstrumentationAnalysisTransform
+Transforming spring-core-6.1.11.jar (org.springframework:spring-core:6.1.11) with MergeInstrumentationAnalysisTransform
+Transforming google-http-client-apache-v2-1.42.2.jar (com.google.http-client:google-http-client-apache-v2:1.42.2) with InstrumentationAnalysisTransform
+Transforming commons-compress-1.26.0.jar (org.apache.commons:commons-compress:1.26.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming google-http-client-apache-v2-1.42.2.jar (com.google.http-client:google-http-client-apache-v2:1.42.2) with MergeInstrumentationAnalysisTransform
+Transforming spring-core-6.1.11.jar (org.springframework:spring-core:6.1.11) with ExternalDependencyInstrumentingArtifactTransform
+Transforming google-auth-library-oauth2-http-1.10.0.jar (com.google.auth:google-auth-library-oauth2-http:1.10.0) with InstrumentationAnalysisTransform
+Transforming google-auth-library-oauth2-http-1.10.0.jar (com.google.auth:google-auth-library-oauth2-http:1.10.0) with MergeInstrumentationAnalysisTransform
+Transforming google-http-client-apache-v2-1.42.2.jar (com.google.http-client:google-http-client-apache-v2:1.42.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming google-http-client-gson-1.42.2.jar (com.google.http-client:google-http-client-gson:1.42.2) with InstrumentationAnalysisTransform
+Transforming google-http-client-gson-1.42.2.jar (com.google.http-client:google-http-client-gson:1.42.2) with MergeInstrumentationAnalysisTransform
+Transforming google-auth-library-oauth2-http-1.10.0.jar (com.google.auth:google-auth-library-oauth2-http:1.10.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming google-http-client-1.42.2.jar (com.google.http-client:google-http-client:1.42.2) with InstrumentationAnalysisTransform
+Transforming google-http-client-1.42.2.jar (com.google.http-client:google-http-client:1.42.2) with MergeInstrumentationAnalysisTransform
+Transforming opencensus-contrib-http-util-0.31.1.jar (io.opencensus:opencensus-contrib-http-util:0.31.1) with InstrumentationAnalysisTransform
+Transforming opencensus-contrib-http-util-0.31.1.jar (io.opencensus:opencensus-contrib-http-util:0.31.1) with MergeInstrumentationAnalysisTransform
+Transforming guava-32.1.2-jre.jar (com.google.guava:guava:32.1.2-jre) with InstrumentationAnalysisTransform
+Transforming google-http-client-gson-1.42.2.jar (com.google.http-client:google-http-client-gson:1.42.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming guava-32.1.2-jre.jar (com.google.guava:guava:32.1.2-jre) with MergeInstrumentationAnalysisTransform
+Transforming jackson-datatype-jsr310-2.15.2.jar (com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2) with InstrumentationAnalysisTransform
+Transforming google-http-client-1.42.2.jar (com.google.http-client:google-http-client:1.42.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-datatype-jsr310-2.15.2.jar (com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2) with MergeInstrumentationAnalysisTransform
+Transforming opencensus-contrib-http-util-0.31.1.jar (io.opencensus:opencensus-contrib-http-util:0.31.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-module-parameter-names-2.15.2.jar (com.fasterxml.jackson.module:jackson-module-parameter-names:2.15.2) with InstrumentationAnalysisTransform
+Transforming jackson-module-parameter-names-2.15.2.jar (com.fasterxml.jackson.module:jackson-module-parameter-names:2.15.2) with MergeInstrumentationAnalysisTransform
+Transforming jackson-databind-2.15.2.jar (com.fasterxml.jackson.core:jackson-databind:2.15.2) with InstrumentationAnalysisTransform
+Transforming guava-32.1.2-jre.jar (com.google.guava:guava:32.1.2-jre) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-databind-2.15.2.jar (com.fasterxml.jackson.core:jackson-databind:2.15.2) with MergeInstrumentationAnalysisTransform
+Transforming jackson-module-parameter-names-2.15.2.jar (com.fasterxml.jackson.module:jackson-module-parameter-names:2.15.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-annotations-2.15.2.jar (com.fasterxml.jackson.core:jackson-annotations:2.15.2) with InstrumentationAnalysisTransform
+Transforming jackson-datatype-jsr310-2.15.2.jar (com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-annotations-2.15.2.jar (com.fasterxml.jackson.core:jackson-annotations:2.15.2) with MergeInstrumentationAnalysisTransform
+Transforming jackson-core-2.15.2.jar (com.fasterxml.jackson.core:jackson-core:2.15.2) with InstrumentationAnalysisTransform
+Transforming jackson-core-2.15.2.jar (com.fasterxml.jackson.core:jackson-core:2.15.2) with MergeInstrumentationAnalysisTransform
+Transforming jackson-databind-2.15.2.jar (com.fasterxml.jackson.core:jackson-databind:2.15.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming asm-9.5.jar (org.ow2.asm:asm:9.5) with InstrumentationAnalysisTransform
+Transforming asm-9.5.jar (org.ow2.asm:asm:9.5) with MergeInstrumentationAnalysisTransform
+Transforming jib-gradle-plugin-extension-api-0.4.0.jar (com.google.cloud.tools:jib-gradle-plugin-extension-api:0.4.0) with InstrumentationAnalysisTransform
+Transforming jib-gradle-plugin-extension-api-0.4.0.jar (com.google.cloud.tools:jib-gradle-plugin-extension-api:0.4.0) with MergeInstrumentationAnalysisTransform
+Transforming jackson-annotations-2.15.2.jar (com.fasterxml.jackson.core:jackson-annotations:2.15.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-core-2.15.2.jar (com.fasterxml.jackson.core:jackson-core:2.15.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jib-build-plan-0.4.0.jar (com.google.cloud.tools:jib-build-plan:0.4.0) with InstrumentationAnalysisTransform
+Transforming asm-9.5.jar (org.ow2.asm:asm:9.5) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jib-build-plan-0.4.0.jar (com.google.cloud.tools:jib-build-plan:0.4.0) with MergeInstrumentationAnalysisTransform
+Transforming jib-plugins-extension-common-0.2.0.jar (com.google.cloud.tools:jib-plugins-extension-common:0.2.0) with InstrumentationAnalysisTransform
+Transforming jib-plugins-extension-common-0.2.0.jar (com.google.cloud.tools:jib-plugins-extension-common:0.2.0) with MergeInstrumentationAnalysisTransform
+Transforming jib-gradle-plugin-extension-api-0.4.0.jar (com.google.cloud.tools:jib-gradle-plugin-extension-api:0.4.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming sonar-scanner-api-2.16.2.588.jar (org.sonarsource.scanner.api:sonar-scanner-api:2.16.2.588) with InstrumentationAnalysisTransform
+Transforming sonar-scanner-api-2.16.2.588.jar (org.sonarsource.scanner.api:sonar-scanner-api:2.16.2.588) with MergeInstrumentationAnalysisTransform
+Transforming jna-platform-5.13.0.jar (net.java.dev.jna:jna-platform:5.13.0) with InstrumentationAnalysisTransform
+Transforming jib-plugins-extension-common-0.2.0.jar (com.google.cloud.tools:jib-plugins-extension-common:0.2.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jna-platform-5.13.0.jar (net.java.dev.jna:jna-platform:5.13.0) with MergeInstrumentationAnalysisTransform
+Transforming jib-build-plan-0.4.0.jar (com.google.cloud.tools:jib-build-plan:0.4.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming httpclient5-5.3.1.jar (org.apache.httpcomponents.client5:httpclient5:5.3.1) with InstrumentationAnalysisTransform
+Transforming sonar-scanner-api-2.16.2.588.jar (org.sonarsource.scanner.api:sonar-scanner-api:2.16.2.588) with ExternalDependencyInstrumentingArtifactTransform
+Transforming httpclient5-5.3.1.jar (org.apache.httpcomponents.client5:httpclient5:5.3.1) with MergeInstrumentationAnalysisTransform
+Transforming tomlj-1.0.0.jar (org.tomlj:tomlj:1.0.0) with InstrumentationAnalysisTransform
+Transforming tomlj-1.0.0.jar (org.tomlj:tomlj:1.0.0) with MergeInstrumentationAnalysisTransform
+Transforming spring-jcl-6.1.11.jar (org.springframework:spring-jcl:6.1.11) with InstrumentationAnalysisTransform
+Transforming jna-platform-5.13.0.jar (net.java.dev.jna:jna-platform:5.13.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming spring-jcl-6.1.11.jar (org.springframework:spring-jcl:6.1.11) with MergeInstrumentationAnalysisTransform
+Transforming commons-io-2.15.1.jar (commons-io:commons-io:2.15.1) with InstrumentationAnalysisTransform
+Transforming httpclient5-5.3.1.jar (org.apache.httpcomponents.client5:httpclient5:5.3.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming commons-io-2.15.1.jar (commons-io:commons-io:2.15.1) with MergeInstrumentationAnalysisTransform
+Transforming tomlj-1.0.0.jar (org.tomlj:tomlj:1.0.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming commons-lang3-3.14.0.jar (org.apache.commons:commons-lang3:3.14.0) with InstrumentationAnalysisTransform
+Transforming commons-lang3-3.14.0.jar (org.apache.commons:commons-lang3:3.14.0) with MergeInstrumentationAnalysisTransform
+Transforming spring-jcl-6.1.11.jar (org.springframework:spring-jcl:6.1.11) with ExternalDependencyInstrumentingArtifactTransform
+Transforming httpclient-4.5.13.jar (org.apache.httpcomponents:httpclient:4.5.13) with InstrumentationAnalysisTransform
+Transforming httpclient-4.5.13.jar (org.apache.httpcomponents:httpclient:4.5.13) with MergeInstrumentationAnalysisTransform
+Transforming httpcore-4.4.15.jar (org.apache.httpcomponents:httpcore:4.4.15) with InstrumentationAnalysisTransform
+Transforming commons-io-2.15.1.jar (commons-io:commons-io:2.15.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming httpcore-4.4.15.jar (org.apache.httpcomponents:httpcore:4.4.15) with MergeInstrumentationAnalysisTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with InstrumentationAnalysisTransform
+Transforming httpclient-4.5.13.jar (org.apache.httpcomponents:httpclient:4.5.13) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with MergeInstrumentationAnalysisTransform
+Transforming commons-lang3-3.14.0.jar (org.apache.commons:commons-lang3:3.14.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming j2objc-annotations-2.8.jar (com.google.j2objc:j2objc-annotations:2.8) with InstrumentationAnalysisTransform
+Transforming httpcore-4.4.15.jar (org.apache.httpcomponents:httpcore:4.4.15) with ExternalDependencyInstrumentingArtifactTransform
+Transforming j2objc-annotations-2.8.jar (com.google.j2objc:j2objc-annotations:2.8) with MergeInstrumentationAnalysisTransform
+Transforming opencensus-api-0.31.1.jar (io.opencensus:opencensus-api:0.31.1) with InstrumentationAnalysisTransform
+Transforming opencensus-api-0.31.1.jar (io.opencensus:opencensus-api:0.31.1) with MergeInstrumentationAnalysisTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming auto-value-annotations-1.9.jar (com.google.auto.value:auto-value-annotations:1.9) with InstrumentationAnalysisTransform
+Transforming auto-value-annotations-1.9.jar (com.google.auto.value:auto-value-annotations:1.9) with MergeInstrumentationAnalysisTransform
+Transforming j2objc-annotations-2.8.jar (com.google.j2objc:j2objc-annotations:2.8) with ExternalDependencyInstrumentingArtifactTransform
+Transforming google-auth-library-credentials-1.10.0.jar (com.google.auth:google-auth-library-credentials:1.10.0) with InstrumentationAnalysisTransform
+Transforming google-auth-library-credentials-1.10.0.jar (com.google.auth:google-auth-library-credentials:1.10.0) with MergeInstrumentationAnalysisTransform
+Transforming opencensus-api-0.31.1.jar (io.opencensus:opencensus-api:0.31.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming failureaccess-1.0.1.jar (com.google.guava:failureaccess:1.0.1) with InstrumentationAnalysisTransform
+Transforming auto-value-annotations-1.9.jar (com.google.auto.value:auto-value-annotations:1.9) with ExternalDependencyInstrumentingArtifactTransform
+Transforming failureaccess-1.0.1.jar (com.google.guava:failureaccess:1.0.1) with MergeInstrumentationAnalysisTransform
+Transforming listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar (com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava) with InstrumentationAnalysisTransform
+Transforming google-auth-library-credentials-1.10.0.jar (com.google.auth:google-auth-library-credentials:1.10.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar (com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava) with MergeInstrumentationAnalysisTransform
+Transforming checker-qual-3.33.0.jar (org.checkerframework:checker-qual:3.33.0) with InstrumentationAnalysisTransform
+Transforming checker-qual-3.33.0.jar (org.checkerframework:checker-qual:3.33.0) with MergeInstrumentationAnalysisTransform
+Transforming failureaccess-1.0.1.jar (com.google.guava:failureaccess:1.0.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming error_prone_annotations-2.18.0.jar (com.google.errorprone:error_prone_annotations:2.18.0) with InstrumentationAnalysisTransform
+Transforming error_prone_annotations-2.18.0.jar (com.google.errorprone:error_prone_annotations:2.18.0) with MergeInstrumentationAnalysisTransform
+Transforming jna-5.13.0.jar (net.java.dev.jna:jna:5.13.0) with InstrumentationAnalysisTransform
+Transforming jna-5.13.0.jar (net.java.dev.jna:jna:5.13.0) with MergeInstrumentationAnalysisTransform
+Transforming httpcore5-h2-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5-h2:5.2.4) with InstrumentationAnalysisTransform
+Transforming listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar (com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava) with ExternalDependencyInstrumentingArtifactTransform
+Transforming checker-qual-3.33.0.jar (org.checkerframework:checker-qual:3.33.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming httpcore5-h2-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5-h2:5.2.4) with MergeInstrumentationAnalysisTransform
+Transforming error_prone_annotations-2.18.0.jar (com.google.errorprone:error_prone_annotations:2.18.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming httpcore5-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5:5.2.4) with InstrumentationAnalysisTransform
+Transforming httpcore5-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5:5.2.4) with MergeInstrumentationAnalysisTransform
+Transforming slf4j-api-1.7.36.jar (org.slf4j:slf4j-api:1.7.36) with InstrumentationAnalysisTransform
+Transforming jna-5.13.0.jar (net.java.dev.jna:jna:5.13.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming slf4j-api-1.7.36.jar (org.slf4j:slf4j-api:1.7.36) with MergeInstrumentationAnalysisTransform
+Transforming antlr4-runtime-4.7.2.jar (org.antlr:antlr4-runtime:4.7.2) with InstrumentationAnalysisTransform
+Transforming httpcore5-h2-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5-h2:5.2.4) with ExternalDependencyInstrumentingArtifactTransform
+Transforming antlr4-runtime-4.7.2.jar (org.antlr:antlr4-runtime:4.7.2) with MergeInstrumentationAnalysisTransform
+Transforming httpcore5-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5:5.2.4) with ExternalDependencyInstrumentingArtifactTransform
+Transforming commons-logging-1.2.jar (commons-logging:commons-logging:1.2) with InstrumentationAnalysisTransform
+Transforming commons-logging-1.2.jar (commons-logging:commons-logging:1.2) with MergeInstrumentationAnalysisTransform
+Transforming commons-codec-1.11.jar (commons-codec:commons-codec:1.11) with InstrumentationAnalysisTransform
+Transforming slf4j-api-1.7.36.jar (org.slf4j:slf4j-api:1.7.36) with ExternalDependencyInstrumentingArtifactTransform
+Transforming commons-codec-1.11.jar (commons-codec:commons-codec:1.11) with MergeInstrumentationAnalysisTransform
+Transforming grpc-context-1.27.2.jar (io.grpc:grpc-context:1.27.2) with InstrumentationAnalysisTransform
+Transforming antlr4-runtime-4.7.2.jar (org.antlr:antlr4-runtime:4.7.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming commons-logging-1.2.jar (commons-logging:commons-logging:1.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming grpc-context-1.27.2.jar (io.grpc:grpc-context:1.27.2) with MergeInstrumentationAnalysisTransform
+Transforming gson-2.9.0.jar (com.google.code.gson:gson:2.9.0) with InstrumentationAnalysisTransform
+Transforming commons-codec-1.11.jar (commons-codec:commons-codec:1.11) with ExternalDependencyInstrumentingArtifactTransform
+Transforming grpc-context-1.27.2.jar (io.grpc:grpc-context:1.27.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming gson-2.9.0.jar (com.google.code.gson:gson:2.9.0) with MergeInstrumentationAnalysisTransform
+Transforming gson-2.9.0.jar (com.google.code.gson:gson:2.9.0) with ExternalDependencyInstrumentingArtifactTransform
+Applying dependency management to configuration 'bootArchives' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'archives' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'default' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'implementation' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'compileOnly' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'compileClasspath' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'annotationProcessor' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'runtimeOnly' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'runtimeClasspath' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'apiElements' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'runtimeElements' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'mainSourceElements' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'testImplementation' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'testCompileOnly' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'testCompileClasspath' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'testAnnotationProcessor' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'testRuntimeOnly' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'testRuntimeClasspath' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'testResultsElementsForTest' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'productionRuntimeClasspath' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'developmentOnly' in project 'JavaApp-Deployment-Project'
+Applying dependency management to configuration 'testAndDevelopmentOnly' in project 'JavaApp-Deployment-Project'
+All projects evaluated.
+Task name matched 'sonar'
+Selected primary task 'sonar' from project :
+Tasks to be executed: [task ':sonar']
+Tasks that were excluded: []
+Resolve mutations for :sonar (Thread[#550,Execution worker,5,main]) started.
+:sonar (Thread[#555,Execution worker Thread 6,5,main]) started.
+
+> Task :sonar FAILED
+Resolving global dependency management for project 'JavaApp-Deployment-Project'
+Excluding []
+Excluding []
+Excluding []
+Caching disabled for task ':sonar' because:
+  Build cache is disabled
+Task ':sonar' is not up-to-date because:
+  Task has not declared any outputs despite executing actions.
+User cache: /home/braimahadams/.sonar/cache
+Default locale: "en_US", source code encoding: "UTF-8"
+Load global settings
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.9/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+1 actionable task: 1 executed
