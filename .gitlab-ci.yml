@@ -58,7 +58,7 @@ build-artifact:
     expire_in: 30 day
 
 sonarqube-check:
-  image: gradle:8.2.0-jdk17-jammy
+  image: gradle:8.9-jdk8-jammy
   stage: code-quality
   dependencies:
     - build-artifact
@@ -67,7 +67,7 @@ sonarqube-check:
     key: "${CI_COMMIT_SHORT_SHA}"
     paths:
       - sonar-scanner/  
-  script: gradle sonar --debug
+  script: gradle sonar
   allow_failure: true
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
@@ -90,7 +90,7 @@ sonarqube-vulnerability-report:
 
 
 # test the Java artifact
-unit-test:
+.unit-test:
   image: sapmachine:21-jdk-ubuntu
   stage: test-artifact
   before_script:
@@ -107,7 +107,7 @@ unit-test:
 
 
 # Performs a smoke test to verify the Java application is running and responds with a 200 OK status
-smoke-test:
+.smoke-test:
   image: sapmachine:21-jdk-ubuntu
   stage: test-artifact
   dependencies:
@@ -120,7 +120,7 @@ smoke-test:
 
 
 # builds scan and pushes the docker image to gitlab container registry
-build-scan-and-push-image:
+.build-scan-and-push-image:
   image: docker:24.0.5
   services:
     - docker:24.0.5-dind
@@ -144,7 +144,7 @@ build-scan-and-push-image:
 
 
 # deploy to staging VM
-deploy-to-stage:
+.deploy-to-stage:
   extends: .deploy-template
   stage: deploy-stage
   variables:
@@ -174,7 +174,7 @@ deploy-to-stage:
 
 
 # manual selection to Deploy to production VM (triggered by merge request to main)
-deploy-to-prod:
+.deploy-to-prod:
   extends: .deploy-template
   stage: deploy-prod
   variables:
