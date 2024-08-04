@@ -8,7 +8,7 @@ plugins {
 
 sonar {
   properties {
-    property("sonar.projectKey", "intern8622730_JavaApp-Deployment-Project_2942fb77-c9c3-4f39-8fa9-3f1328e0cfaf")
+    property("sonar.projectKey", "intern8622730_JavaApp-Deployment-Project_62f7c699-4d5e-4249-88f0-5ff56ea58112")
     property("sonar.projectName", "JavaApp-Deployment-Project")
     property("sonar.qualitygate.wait", true)
     property("sonar.java.binaries", "build/classes/java/main")
@@ -48,6 +48,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
     implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j")
+    
+    implementation("io.micrometer:micrometer-registry-prometheus")
 
     implementation("com.h2database:h2")
 
