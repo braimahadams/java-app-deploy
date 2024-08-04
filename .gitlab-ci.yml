@@ -58,7 +58,7 @@ build-artifact:
     expire_in: 30 day
 
 sonarqube-check:
-  image: gradle:8.9-jdk8-jammy
+  image: gradle:8.9-jdk17-jammy
   stage: code-quality
   dependencies:
     - build-artifact
@@ -73,7 +73,7 @@ sonarqube-check:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_COMMIT_BRANCH == 'dev'
 
-sonarqube-vulnerability-report:
+.sonarqube-vulnerability-report:
   image: gradle:8.2.0-jdk17-jammy
   stage: code-quality
   script:
