@@ -12,6 +12,7 @@ sonar {
     property("sonar.projectName", "JavaApp-Deployment-Project")
     property("sonar.qualitygate.wait", true)
     property("sonar.java.binaries", "build/classes/java/main")
+    property("sonar.analysisCache.enabled", "false")
   }
 }
 
