@@ -35,10 +35,12 @@ stages:
 # cache the gradle wrapper and build cache to avoid unnecessary rebuilds
 cache:
     key: $CI_COMMIT_REF_SLUG
+    policy: pull
     paths:
       - .gradle/wrapper
       - .gradle/caches
       - build/
+      - sonar-scanner/ 
     when: on_success
 
 
@@ -49,29 +51,18 @@ build-artifact:
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
   script:
-    - ./gradlew clean build -x test --no-daemon --build-cache 
+    - ./gradlew clean build -x test --no-daemon --build-cache
+    - ./gradlew sonar 
   artifacts:
     paths:
       - ./build/classes/java/main 
       - ./build/libs
       - ./builds  
     expire_in: 30 day
-
-sonarqube-check:
-  image: gradle:8.9.0-jdk21-jammy
-  stage: code-quality
-  dependencies:
-    - build-artifact
-  cache:
-    policy: pull
-    key: "${CI_COMMIT_SHORT_SHA}"
-    paths:
-      - sonar-scanner/  
-  script: ./gradew sonar
   allow_failure: true
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_COMMIT_BRANCH == 'dev'
+
 
 .sonarqube-vulnerability-report:
   image: gradle:8.2.0-jdk17-jammy
@@ -80,13 +71,11 @@ sonarqube-check:
     - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=intern8622730_JavaApp-Deployment-Project_2942fb77-c9c3-4f39-8fa9-3f1328e0cfaf&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
   allow_failure: true
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_COMMIT_BRANCH == 'dev'
   artifacts:
     expire_in: 1 day
     reports:
       sast: gl-sast-sonar-report.json
-
 
 
 # test the Java artifact
