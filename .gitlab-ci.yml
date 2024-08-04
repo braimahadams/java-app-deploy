@@ -58,7 +58,7 @@ build-artifact:
     expire_in: 30 day
 
 sonarqube-check:
-  image: gradle:8.9-jdk17-jammy
+  image: gradle:8.9.0-jdk21-jammy
   stage: code-quality
   dependencies:
     - build-artifact
