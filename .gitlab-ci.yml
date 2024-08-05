@@ -18,7 +18,7 @@ variables:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - export ANSIBLE_CONFIG=./deploy-with-ansible/ansible.cfg
-    #- ansible-playbook -i ./deploy-with-ansible/inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" -e @./deploy-with-ansible/secret_file.enc --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE $PLAYBOOK_FILE
+    - ansible-playbook -i ./deploy-with-ansible/inventory.ini -e "IMAGE_NAME=$IMAGE_NAME IMAGE_TAG=$IMAGE_TAG" -e @./deploy-with-ansible/secret_file.enc --vault-password-file $ANSIBLE_VAULT_PASSWORD_FILE $PLAYBOOK_FILE
 
 
 # different stages of the CI/CD pipeline
@@ -64,7 +64,7 @@ build-artifact:
     - if: $CI_COMMIT_BRANCH == 'dev'
 
 
-.sonarqube-vulnerability-report:
+sonarqube-vulnerability-report:
   image: gradle:8.2.0-jdk17-jammy
   stage: code-quality
   script:
@@ -79,7 +79,7 @@ build-artifact:
 
 
 # test the Java artifact
-.unit-test:
+unit-test:
   image: sapmachine:21-jdk-ubuntu
   stage: test-artifact
   before_script:
@@ -96,7 +96,7 @@ build-artifact:
 
 
 # Performs a smoke test to verify the Java application is running and responds with a 200 OK status
-.smoke-test:
+smoke-test:
   image: sapmachine:21-jdk-ubuntu
   stage: test-artifact
   dependencies:
@@ -109,7 +109,7 @@ build-artifact:
 
 
 # builds scan and pushes the docker image to gitlab container registry
-.build-scan-and-push-image:
+build-scan-and-push-image:
   image: docker:24.0.5
   services:
     - docker:24.0.5-dind
@@ -133,12 +133,17 @@ build-artifact:
 
 
 # deploy to staging VM
-.deploy-to-stage:
-  extends: .deploy-template
+deploy-to-stage:
   stage: deploy-stage
   variables:
     DEPLOY_VM_IP: $STAGING_VM_IP
     PLAYBOOK_FILE: ./deploy-with-ansible/deploy-staging.yml
+  extends: .deploy-template
+  # Deploy Monitoring & Logging Stack to VM 
+  script:
+    - ansible-playbook -i ./deploy-with-ansible/inventory.ini ./deploy-with-ansible/Monitoring/prometheus/prometheus_playbook.yml
+    - ansible-playbook -i ./deploy-with-ansible/inventory.ini ./deploy-with-ansible/Monitoring/grafana/grafana_playbook.yml
+    - ansible-playbook -i ./deploy-with-ansible/inventory.ini ./deploy-with-ansible/Monitoring/node_exporter/node_exporter_playbook.yml
   rules:
     - if: $CI_COMMIT_BRANCH == 'dev'
       when: on_success
