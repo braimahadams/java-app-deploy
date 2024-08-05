@@ -59,7 +59,6 @@ build-artifact:
       - ./build/libs
       - ./builds  
     expire_in: 30 day
-  allow_failure: true
   rules:
     - if: $CI_COMMIT_BRANCH == 'dev'
 
