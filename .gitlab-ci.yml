@@ -139,11 +139,6 @@ deploy-to-stage:
     DEPLOY_VM_IP: $STAGING_VM_IP
     PLAYBOOK_FILE: ./deploy-with-ansible/deploy-staging.yml
   extends: .deploy-template
-  # Deploy Monitoring & Logging Stack to VM 
-  script:
-    - ansible-playbook -i ./deploy-with-ansible/inventory.ini ./deploy-with-ansible/Monitoring/prometheus/prometheus_playbook.yml
-    - ansible-playbook -i ./deploy-with-ansible/inventory.ini ./deploy-with-ansible/Monitoring/grafana/grafana_playbook.yml
-    - ansible-playbook -i ./deploy-with-ansible/inventory.ini ./deploy-with-ansible/Monitoring/node_exporter/node_exporter_playbook.yml
   rules:
     - if: $CI_COMMIT_BRANCH == 'dev'
       when: on_success
@@ -169,11 +164,11 @@ deploy-to-stage:
 
 # manual selection to Deploy to production VM (triggered by merge request to main)
 .deploy-to-prod:
-  extends: .deploy-template
   stage: deploy-prod
   variables:
     DEPLOY_VM_IP: $PROD_VM_IP
     PLAYBOOK_FILE: ./deploy-with-ansible/deploy-prod.yml
+  extends: .deploy-template  
   rules:
   - if: $CI_COMMIT_BRANCH == 'main'
     when: manual
