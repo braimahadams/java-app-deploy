@@ -43,3 +43,28 @@
         restart_policy: always
         ports:
           - "8080:8080"  
+          
+    - name: Create directory for Docker CLI plugins
+      file:
+        path: /usr/local/lib/docker/cli-plugins
+        state: directory
+        mode: '0755'
+
+    - name: Download Docker Compose binary
+      get_url:
+        url: https://github.com/docker/compose/releases/download/v2.29.1/docker-compose-linux-x86_64
+        dest: /usr/local/lib/docker/cli-plugins/docker-compose
+        mode: '0644'
+
+    - name: Apply executable permissions to Docker Compose binary
+      file:
+        path: /usr/local/lib/docker/cli-plugins/docker-compose
+        mode: '0755'
+
+    - name: Verify Docker Compose installation
+      command: docker compose version
+      register: compose_version
+
+    - name: Display Docker Compose version
+      debug:
+        msg: "Docker Compose version: {{ compose_version.stdout }}"
