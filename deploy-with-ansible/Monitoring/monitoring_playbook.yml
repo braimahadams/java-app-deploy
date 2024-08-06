@@ -1,0 +1,62 @@
+---
+- name: Deploy Docker Compose Setup
+  hosts: staging-VM     
+  become: yes
+  tasks:
+    - name: Copy Prometheus configuration file
+      copy:
+        src: ./prometheus.yml # Path to your local prometheus.yml
+        dest: /tmp/prometheus.yml
+        mode: '0644'
+
+    - name: Copy Docker Compose file
+      copy:
+        src: ./docker-compose.yml # Path to your local docker-compose.yaml
+        dest: /tmp/docker-compose.yml
+        mode: '0644'
+
+    - name: Start Docker Compose services
+      command:
+        cmd: docker compose -f /tmp/docker-compose.yml up -d
+        chdir: /tmp
+    
+    - name: Wait for Prometheus to start
+      uri:
+        url: http://localhost:9090/-/healthy
+        method: GET
+        status_code: 200
+      register: prometheus_health
+      retries: 10
+      delay: 10
+      until: prometheus_health.status == 200
+
+    - name: Wait for Grafana to start
+      uri:
+        url: http://localhost:3000/api/health
+        method: GET
+        status_code: 200
+      register: grafana_health
+      retries: 10
+      delay: 10
+      until: grafana_health.status == 200
+
+    - name: Wait for Loki to start
+      uri:
+        url: http://localhost:3100/ready
+        method: GET
+        status_code: 200
+      register: loki_health
+      retries: 10
+      delay: 10
+      until: loki_health.status == 200
+
+    - name: Wait for Node Exporter to start
+      uri:
+        url: http://localhost:9100/metrics
+        method: GET
+        status_code: 200
+      register: node_exporter_health
+      retries: 10
+      delay: 10
+      until: node_exporter_health.status == 200
+

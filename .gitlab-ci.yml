@@ -45,7 +45,7 @@ cache:
 
 
 # compile and package the Java artifact
-build-artifact:  
+.build-artifact:  
   image: sapmachine:21-jdk-ubuntu
   stage: build-artifact
   before_script:
@@ -63,7 +63,7 @@ build-artifact:
     - if: $CI_COMMIT_BRANCH == 'dev'
 
 
-sonarqube-vulnerability-report:
+.sonarqube-vulnerability-report:
   image: gradle:8.2.0-jdk17-jammy
   stage: code-quality
   script:
@@ -78,7 +78,7 @@ sonarqube-vulnerability-report:
 
 
 # test the Java artifact
-unit-test:
+.unit-test:
   image: sapmachine:21-jdk-ubuntu
   stage: test-artifact
   before_script:
@@ -95,7 +95,7 @@ unit-test:
 
 
 # Performs a smoke test to verify the Java application is running and responds with a 200 OK status
-smoke-test:
+.smoke-test:
   image: sapmachine:21-jdk-ubuntu
   stage: test-artifact
   dependencies:
@@ -108,7 +108,7 @@ smoke-test:
 
 
 # builds scan and pushes the docker image to gitlab container registry
-build-scan-and-push-image:
+.build-scan-and-push-image:
   image: docker:24.0.5
   services:
     - docker:24.0.5-dind
@@ -132,7 +132,7 @@ build-scan-and-push-image:
 
 
 # deploy to staging VM
-deploy-to-stage:
+.deploy-to-stage:
   stage: deploy-stage
   variables:
     DEPLOY_VM_IP: $STAGING_VM_IP
