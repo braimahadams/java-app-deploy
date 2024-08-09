@@ -45,7 +45,7 @@ cache:
 
 
 # compile and package the Java artifact
-.build-artifact:  
+build-artifact:  
   image: sapmachine:21-jdk-ubuntu
   stage: build-artifact
   before_script:
