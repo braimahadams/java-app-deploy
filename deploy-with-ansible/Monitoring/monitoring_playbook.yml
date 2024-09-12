@@ -9,6 +9,12 @@
         dest: /tmp/prometheus.yml
         mode: '0644'
 
+    - name: Copy promtail configuration file
+      copy: 
+        src: ./promtail-config.yml # Path to your local fluentd.conf
+        dest: /tmp/promtail-config.yml
+        mode: '0644'    
+
     - name: Copy Docker Compose file
       copy:
         src: ./docker-compose.yml # Path to your local docker-compose.yaml

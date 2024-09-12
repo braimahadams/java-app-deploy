@@ -8,7 +8,7 @@ plugins {
 
 sonar {
   properties {
-    property("sonar.projectKey", "intern8622730_JavaApp-Deployment-Project_97d68c57-3fda-4f1e-b08f-de0b68f2c228")
+    property("sonar.projectKey", "intern8622730_JavaApp-Deployment-Project_e3e72ccc-2860-4249-884a-3d821bd6d671")
     property("sonar.projectName", "JavaApp-Deployment-Project")
     property("sonar.qualitygate.wait", true)
     property("sonar.java.binaries", "build/classes/java/main")
